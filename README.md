@@ -1,6 +1,6 @@
 # linuxShortcuts
 
-## Arch-Manjaro 
+## Pacman
 ### Aur.sh
 This is not an automated script, but just a shorcut to `git clone` inside de Download folder, `makepkg -si` and delete the created structure.
 
