@@ -9,3 +9,10 @@ This is not an automated script, but just a shorcut to `git clone` inside de Dow
 **Usage**: find your package on aur website and just type `aur name-of-package`.
 
 **Example**: for `visual-studio-code-bin` just type `aur visual-studio-code-bin`. It will ask for your root password and it will install it with all dependencies.
+
+### updateRepositories.sh
+A basic script to update the original packages with Pacman
+
+## apt-get
+### update.sh
+A basic script to update your packages with apt-get
