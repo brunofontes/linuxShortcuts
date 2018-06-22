@@ -22,5 +22,5 @@ do
 		source ~/aur.sh "$line" "$sudoPass"
 	fi
 done
-echo "$sudoPass" | sudo -S yes | pacman -Sc --color always
-
+echo "$sudoPass" | yes | (sudo -S pacman -Sc --color always)
+notify-send "Update script has finished!"
