@@ -12,7 +12,7 @@ check_pkgversion() {
 echo
 echo Updating with Pacman...
 echo
-echo "$sudoPass" | sudo -S pacman -Syu --color always
+echo "$sudoPass" | sudo -S pacman -Syu --color always && sudo pacman-mirrors -g
 echo
 aurpkgs=$(pacman -Qm | awk '{print $1}')
 for line in $aurpkgs
@@ -22,5 +22,5 @@ do
 		source ~/aur.sh "$line" "$sudoPass"
 	fi
 done
-echo "$sudoPass" | yes | (sudo -S pacman -Sc --color always)
+echo "$sudoPass" | yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
 notify-send "Update script has finished!"
