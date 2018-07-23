@@ -1,0 +1,10 @@
+[Unit]
+Description=Mount Multimedia out of fstab
+
+[Service]
+ExecStart=mount /dev/sdb5 /run/media/bruno/Multimedia
+
+[Install]
+WantedBy=multi-user.target
+
+# To enable, copy this to "/etc/systemd/system"
