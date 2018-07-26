@@ -7,7 +7,7 @@ echo Updating with Pacman...
 echo
 echo "$sudoPass" | sudo -S pacman -Syu --color always
 echo;
-aurman -Su --color always
+aurman -Su --noedit --noconfirm --color always
 echo;
 echo "$sudoPass" | yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
 notify-send "Update script has finished!"
