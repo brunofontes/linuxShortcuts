@@ -10,7 +10,7 @@ mkdir -p "$HDYEARMONTH/LinuxHome/bruno"
 mkdir -p "$HDYEARMONTH/LinuxHome/admin"
 mkdir -p "$HDYEARMONTH/LinuxHome/lost+found"
 
-backup="rsync -rptgoDql"
+backup="rsync -rptgoDql --exclude-from=./exclude"
 
 echo
 echo "Backup command    : $backup"
@@ -31,9 +31,6 @@ eval $backup "/home/bruno/" "$HDYEARMONTH/LinuxHome/bruno/" || echo ""
 
 echo -e "\e[97m            `date +%r` - Admin\e[39m"
 eval $backup "/home/admin/" "$HDYEARMONTH/LinuxHome/admin/" || echo ""
-
-echo -e "\e[97m            `date +%r` - Lost+Found\e[39m"
-eval $backup "/home/lost+found/" "$HDYEARMONTH/LinuxHome/lost+found/" || echo ""
 
 echo -e "\e[97m`date +%r` - Copying Localização folder (3/7)...\e[39m"
 eval $backup "/run/media/bruno/Multimedia/Localização" "$HDYEARMONTH/Multimedia/" || echo ""
