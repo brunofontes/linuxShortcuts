@@ -10,19 +10,22 @@ function s() {
    echo
 }
 
+sudo -k
 echo -n Please type your sudo password:
 read -s sudoPass
-echo; echo
+echo
+s "echo '**********'"
+
 bold "Pacman-mirrors -g"
 s "pacman-mirrors -g"
-echo
+
 bold "Updating with PACMAN..."
 s "pacman -Syu --color always"
-echo
+
 bold "Updating with AURMAN..."
 aurman -Su --noedit --noconfirm --color always
-echo
+
 bold "Cleaning stuff..."
 echo -e "$sudoPass\n" | yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
-echo
+
 notify-send "Update script has finished!"
