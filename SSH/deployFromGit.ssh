@@ -1,0 +1,2 @@
+#!/bin/sh
+ssh -A -p 2222 username@MY_IP_ADDRESS -t "cd myApplicationFolder;  git fetch --all; git checkout --force production; git pull origin production --force"
