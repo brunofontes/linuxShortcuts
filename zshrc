@@ -3,6 +3,10 @@
 
 # Path to your oh-my-zsh installation.
   export ZSH=/home/bruno/.oh-my-zsh
+  export XDEBUG_CONFIG="idekey=VSCODE"
+
+# Path to my personal npm file path
+export PATH=~/.npm-global/bin:$PATH
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -60,7 +64,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git sudo docker composer
+  git gitfast git-flow gitignore sudo docker composer autojump gnu-utils gpg-agent homestead laravel man thefuck ufw vagrant vim-interaction vscode
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -94,25 +98,32 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ga='git add'
-alias gck='git checkout'
+alias gch='git checkout'
 alias gc='git commit'
 alias gs='git status'
 alias gpull='sshadd; git pull origin $(git_current_branch)'
 alias gp='sshadd; git gc --auto; git push --all origin; git push --tags'
+alias glog='git log --graph --oneline --decorate -n 10 --color'
 alias update='bash ~/Apps/linuxShortcuts/Pacman/updateRepositories.sh'
 alias grep='grep --color=auto'
 alias ls='ls -h --color=tty'
+alias la='ls -A --color=tty'
 alias aur='aurman -S --noedit --noconfirm --color always'
 alias cat='bat'
 alias du='ncdu --color dark --exclude .git'
+alias clearLogs='sudo find /var/log -mtime +30 -type f -delete'
+alias vzsh='vim ~/.zshrc && source ~/.zshrc'
+alias ssh='sshadd; /usr/bin/ssh'
 
-function sshadd()
-{
-	ssh-add -l > /dev/null || ssh-add
+function vagrant () {
+   builtin cd ~/development/laravelHomestead && /usr/bin/vagrant $* && builtin cd -
 }
 
+function mkcd () { mkdir -p "$1" && builtin cd -P -- "$1" }
+function sshadd() { ssh-add -l > /dev/null || ssh-add }
 function le { "$1" | less }
-function cd { builtin cd "$1"; ls --color=tty; echo "$PWD" }
+function cd { echo; builtin cd "$1"; ls --color=tty; echo; echo PWD: "$PWD" }
+
 function extract()    # Handy Extract Program.
 {
      if [ -f $1 ] ; then
@@ -153,3 +164,11 @@ export GPG_TTY=$(tty)
 
 #Bruno - Enabling TheFuck
 eval $(thefuck --alias)
+
+#Bruno - To run Tilix
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
+
+#Bruno - Keep "LESS" content on screen when exit
+export LESS="-XFR"
