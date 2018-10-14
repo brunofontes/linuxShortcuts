@@ -1,1 +1,1 @@
-aurman -S --noedit --noconfirm --color always
+aurman -S --noedit --noconfirm --color always "$1"

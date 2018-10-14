@@ -1,0 +1,25 @@
+#!/bin/sh
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+	-h|--hdmi)
+	pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:hdmi-stereo && echo "HDMI profile is active" && kdialog --passivepopup "Audio output changed to HDMI" --title="Audio profile changed" 2
+	shift
+	;;
+	-a|--analog)
+	pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:analog-stereo && echo "Analog Profile is active" && kdialog --passivepopup "Audio output changed to ANALOG" --title="Audio profile changed" 2
+
+	shift
+	;;
+	*)
+	echo "Choose -h (--hdmi) or -a (--analog)"
+	exit 3
+	;;
+esac
+done
+if [[ $# -ne $1 ]]; then
+	echo "Choose -h (--hdmi) or -a (--analog)"
+fi
+
