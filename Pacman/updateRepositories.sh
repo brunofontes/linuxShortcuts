@@ -16,16 +16,18 @@ read -s sudoPass
 echo
 s "echo '**********'"
 
-bold "Pacman-mirrors -g"
-s "pacman-mirrors -g"
+bold "Pacman-mirrors -c"
+s "pacman-mirrors -c Brazil Chile United_States"
 
-bold "Updating with PACMAN..."
+#bold "Updating with PACMAN..."
 s "pacman -Syu --color always"
 
 bold "Updating with AURMAN..."
+s "echo"
 aurman -Su --noedit --noconfirm --color always
 
 bold "Cleaning stuff..."
-echo -e "$sudoPass\n" | yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
+s "echo"
+yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
 
 notify-send "Update script has finished!"
