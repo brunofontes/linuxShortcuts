@@ -102,7 +102,7 @@ alias gch='git checkout'
 alias gc='git commit'
 alias gs='git status'
 alias gpull='sshadd; git pull origin $(git_current_branch)'
-alias gp='sshadd; git gc --auto; git push --all origin; git push --tags'
+alias gp='sshadd; git gc --auto; git push --all origin; git push --tags origin'
 alias glog='git log --graph --oneline --decorate -n 10 --color'
 alias update='bash ~/Apps/linuxShortcuts/Pacman/updateRepositories.sh'
 alias grep='grep --color=auto'
@@ -114,15 +114,21 @@ alias du='ncdu --color dark --exclude .git'
 alias clearLogs='sudo find /var/log -mtime +30 -type f -delete'
 alias vzsh='vim ~/.zshrc && source ~/.zshrc'
 alias ssh='sshadd; /usr/bin/ssh'
+alias rm='/usr/bin/rm -I'
 
 function vagrant () {
-   builtin cd ~/development/laravelHomestead && /usr/bin/vagrant $* && builtin cd -
+   builtin cd ~/development/laravelHomestead && /usr/bin/vagrant $*; builtin cd -
 }
 
 function mkcd () { mkdir -p "$1" && builtin cd -P -- "$1" }
 function sshadd() { ssh-add -l > /dev/null || ssh-add }
 function le { "$1" | less }
 function cd { echo; builtin cd "$1"; ls --color=tty; echo; echo PWD: "$PWD" }
+
+function gmerge()
+{
+   branch=$(git_current_branch); git checkout "$1"; git merge "$branch"; git checkout "$branch"
+}
 
 function extract()    # Handy Extract Program.
 {
@@ -172,3 +178,9 @@ fi
 
 #Bruno - Keep "LESS" content on screen when exit
 export LESS="-XFR"
+
+#Bruno - Gnome keyring
+if [ -n "$DESKTOP_SESSION" ];then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi
