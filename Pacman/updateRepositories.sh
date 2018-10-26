@@ -17,10 +17,11 @@ echo
 s "echo '**********'"
 
 bold "Pacman-mirrors -c"
-s "pacman-mirrors -c Brazil Chile United_States"
+s "pacman-mirrors -c Brazil"
 
 #bold "Updating with PACMAN..."
-s "pacman -Syu --color always"
+s "echo"
+yes | sudo pacman -Syyu --color always
 
 bold "Updating with AURMAN..."
 s "echo"
