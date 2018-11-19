@@ -18,6 +18,7 @@ s "echo '**********'"
 
 bold "Pacman-mirrors -c"
 s "pacman-mirrors -c Brazil"
+s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
 
 #bold "Updating with PACMAN..."
 s "echo"

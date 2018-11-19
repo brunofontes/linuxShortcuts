@@ -1,0 +1,10 @@
+[Unit]
+Description=Bruno Fontes script after wakeup
+After=suspend.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/systemctl restart openvpn-client@privatvpn.service
+
+[Install]
+WantedBy=suspend.target

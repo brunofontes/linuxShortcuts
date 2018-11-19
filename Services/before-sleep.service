@@ -1,0 +1,11 @@
+[Unit]
+Description=Bruno Fontes script before sleep
+Before=sleep.target
+
+[Service]
+Type=oneshot
+Environment=DISPLAY=:0
+ExecStart=echo ""
+
+[Install]
+WantedBy=sleep.target
