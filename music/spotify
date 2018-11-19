@@ -1,0 +1,29 @@
+#!/bin/sh
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -P|--play)
+    qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
+    shift
+    ;;
+    -p|--pause)
+    qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Pause
+    shift
+    ;;
+    *)
+    echo "Usage:"
+    echo "-P (--play)  - Play"
+    echo "-p (--pause) - Pause"
+    exit 3
+    ;;
+esac
+done
+if [[ $# -ne $1 ]]; then
+    echo "Usage:"
+    echo "-P (--play)  - Play"
+    echo "-p (--pause) - Pause"
+fi
+
