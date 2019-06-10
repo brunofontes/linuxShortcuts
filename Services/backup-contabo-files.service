@@ -1,0 +1,5 @@
+[Unit]
+Description=Backup contabo files once per week
+
+[Service]
+ExecStart=/home/bruno/Backups/Contabo/backup-files.sh
