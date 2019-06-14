@@ -1,0 +1,11 @@
+[Unit]
+Description=Test and fix DNS update with wrong time
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart = /bin/bash /home/bruno/Apps/linuxShortcuts/Services/fixDNS.sh
+
+[Install]
+WantedBy=multi-user.target
