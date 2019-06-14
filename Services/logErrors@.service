@@ -1,0 +1,6 @@
+[Unit]
+Description=Log Systemd errors on my %i script on home
+
+[Service]
+ExecStart=/home/bruno/Apps/linuxShortcuts/Services/logError.sh %i
+#ExecStart=/bin/systemctl status --full %i >> /home/bruno/.log_error

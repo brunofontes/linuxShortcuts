@@ -1,0 +1,11 @@
+# Copy this file into /etc/pacman.d/hooks folder
+[Trigger]
+Operation = Upgrade
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+[Action]
+Description = Bruno: Cleaning pacman cache...
+When = PostTransaction
+Exec = /usr/bin/paccache -r
