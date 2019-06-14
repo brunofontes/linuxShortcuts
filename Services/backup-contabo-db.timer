@@ -3,8 +3,9 @@ Description=Backup contabo db dayly
 
 [Timer]
 #DayOfWeek Year-Month-Day Hour:Minute:Second
-OnCalendar=*-*-* 10:00:00
+OnCalendar=*-*-* 11:00:00
 Persistent=true
+AccuracySec=1h
 
 [Install]
 WantedBy=timers.target
