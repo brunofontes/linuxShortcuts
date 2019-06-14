@@ -1,0 +1,6 @@
+[Unit]
+Description=Run update DNS root hints montly
+
+[Service]
+Type=oneshot
+ExecStart = /bin/bash /home/bruno/dns_update_rootHints.sh
