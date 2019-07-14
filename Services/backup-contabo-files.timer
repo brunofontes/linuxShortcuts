@@ -3,7 +3,7 @@ Description=Backup contabo files once per week
 
 [Timer]
 #DayOfWeek Year-Month-Day Hour:Minute:Second
-OnCalendar=Mon *-*-* 11:03:00
+OnCalendar=*-*-* 11:03:00
 Persistent=true
 AccuracySec=1h
 
