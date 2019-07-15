@@ -2,9 +2,10 @@
 Description=Backup contabo db dayly
 
 [Timer]
-OnCalendar=*-*-* 11:00:00,15:00:00
+OnCalendar=*-*-* 11:00:00
 Persistent=true
 AccuracySec=1h
+WakeSystem=true
 
 [Install]
 WantedBy=timers.target
