@@ -21,8 +21,8 @@ s "pacman-mirrors -c Brazil"
 s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
 
 #bold "Updating with PACMAN..."
-s "echo"
-yes | sudo pacman -Syyu --color always
+#s "echo"
+#yes | sudo pacman -Syyu --color always
 
 bold "Updating with AURMAN..."
 s "echo"
