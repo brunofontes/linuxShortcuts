@@ -26,7 +26,7 @@ s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
 
 bold "Updating with AURMAN..."
 s "echo"
-aurman -Su --noedit --noconfirm --color always
+aurman -Syyu --noedit --noconfirm --color always
 
 bold "Cleaning stuff..."
 s "echo"
