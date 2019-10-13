@@ -1,4 +1,5 @@
 #! /bin/bash
+sleep 60
 sshKey=$(<.sshKey)
 serverBackupPath=$(<.serverBackupPath)
 localPath=$(<.localBackupPath)
