@@ -1,0 +1,5 @@
+[Unit]
+Description=Backup contabo daily
+
+[Service]
+ExecStart=/home/bruno/Backups/Contabo/backup-contabo.sh

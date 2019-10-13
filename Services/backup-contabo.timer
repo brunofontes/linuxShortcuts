@@ -1,9 +1,9 @@
 [Unit]
-Description=Backup contabo files once per week
+Description=Backup contabo daily
 
 [Timer]
 Persistent=true
-OnCalendar=*-*-* 10:03:00
+OnCalendar=*-*-* 10:15:00
 WakeSystem=true
 #DayOfWeek Year-Month-Day Hour:Minute:Second
 
