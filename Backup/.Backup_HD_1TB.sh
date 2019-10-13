@@ -9,7 +9,8 @@ else
     NextDisk=1
 fi
 
-backup="rsync -aq --inplace --exclude-from=./exclude"
+#backup="rsync -aq --inplace --exclude-from=./exclude"
+backup="nice -n 19 rsync -a --exclude-from=./exclude"
 HDPath="$HDPath$NextDisk"
 HDYEARMONTH="$HDPath/$YEARMONTH"
 
