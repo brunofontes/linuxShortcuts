@@ -1,0 +1,6 @@
+[Unit]
+Description=Minecraft Informa a Hora Certa
+
+[Service]
+User=bruno
+ExecStart=/bin/sh /home/bruno/Apps/linuxShortcuts/Services/minecraft-hour.sh

@@ -1,0 +1,12 @@
+[Unit]
+Description=Minecraft Informa a Hora Certa
+Requires=minecraft-hour.service
+
+[Timer]
+Unit=minecraft-hour.service
+OnCalendar=*-*-* *:0,15,30,45:00
+#DayOfWeek Year-Month-Day Hour:Minute:Second
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target
