@@ -20,13 +20,9 @@ bold "Pacman-mirrors -c"
 s "pacman-mirrors -c Brazil"
 s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
 
-# bold "Updating with PACMAN..."
-# s "echo"
-# yes | sudo pacman -Syyu --color always
-
 bold "Updating with AURMAN..."
 s "echo"
-aurman -Syyu --noedit --noconfirm --color always
+yay -Syu --sudoloop --noconfirm --nobatchinstall
 
 bold "Cleaning stuff..."
 s "echo"
