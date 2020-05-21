@@ -70,4 +70,8 @@ kdialog --title "Backup Complete" --msgbox "Backup finished successfully"
 
 echo "Press any key to close"
 read
+
+#Umount device
+device=$(mount | grep Backup_$LastDisk | cut -d " " -f1)
+udisksctl unmount -b $device && udisksctl power-off -b $device
 exit
