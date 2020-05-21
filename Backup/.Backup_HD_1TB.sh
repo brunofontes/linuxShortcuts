@@ -67,3 +67,7 @@ echo -e "\e[97m`date +%r` - Backup finished. Please, verify your log files.\e[39
 
 echo "$NextDisk" > .lastDisk    
 kdialog --title "Backup Complete" --msgbox "Backup finished successfully"
+
+echo "Press any key to close"
+read
+exit

@@ -5,6 +5,6 @@ sleep 60
 # Delete old backups
 find /home/bruno/Backups/Contabo/db -type f -name "*.sql.gz" -mtime +15 -delete
 find /home/bruno/Backups/Contabo/files -type f -name "*.*" -mtime +35 -delete
-find /home/bruno/Backups/Contabo/vmail -type f -name "*.*" -mtime +20 -delete
+find /home/bruno/Backups/Contabo/mail -type f -name "*.*" -mtime +20 -delete
 
 find /home/bruno/Backups/Contabo/ -type f -name "*.*" -mtime +120 -delete
