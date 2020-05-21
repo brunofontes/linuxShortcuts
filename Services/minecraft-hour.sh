@@ -1,23 +1,57 @@
-if ! screen -list | grep -q "minecraftPE"; then
+if ! screen -list | grep -q "Minecraft"; then
   exit 1
 fi
 
-function runAllWorlds () {
-    screen -S minecraftPESurvival -X stuff "$1"
-    screen -S minecraftPECreative -X stuff "$1"
-}
+BACKUPDIR="/home/bruno/Backups/Minecraft"
+SERVERDIR="/home/bruno/Apps/Minecraft"
+SURVIVALDIR="$SERVERDIR/BedrockServer_Survival_19132"
+CREATIVEDIR="$SERVERDIR/BedrockServer_Creative_19134"
+LogFile="log.txt"
 
-runAllWorlds "say $(date +%l:%M)\n"
+alias run='screen -S Minecraft -X'
+alias runSurvival='run at Survival stuff'
+alias runCreative='run at Creative stuff'
+alias runAllWorlds='run at "#" stuff'
 
-HORA=$(date +%H)
-if [ "$HORA" -ge 23 ]; then
-    screen -S minecraftPECreative -X stuff $'say Hora de dormir\n'
-    sleep 5
-    screen -S minecraftPECreative -X stuff $'stop\n'
+cd /home/bruno/Apps/Minecraft
 
-    if [ "$HORA" -ge 1 -a "$HORA" -lt 5 ]; then
-        screen -S minecraftPESurvival -X stuff $'say Hora de dormir\n'
-        source /home/bruno/Apps/Minecraft/stopServers.sh
+runAllWorlds "^u"
+runAllWorlds "say $(date +%l:%M) - Saving worlds\n"
+runAllWorlds "save hold\n"
+sleep 2s
+
+finishedCreative=""
+timeout=30
+while [[ $finishedCreative != *"Data saved."* ]]; do
+    if [[ $timeout -lt 1 ]]; then
+        notify-send "Error backuping Creative world"
+        exit 1
     fi
+    (( timeout-- ))
+    sleep 1s
+    runCreative "^u"
+    runCreative "save query\n"
+    finishedCreative=$(tail -n 4 "$CREATIVEDIR/$LogFile")
+done
 
-fi
+timeout=30
+finishedSurvival=""
+while [[ $finishedSurvival != *"Data saved."* ]]; do
+    if [[ $timeout -lt 1 ]]; then
+        notify-send "Error backuping Survival world"
+        exit 1
+    fi
+    (( timeout-- ))
+    sleep 1s
+    runSurvival "^u"
+    runSurvival "save query\n"
+    finishedSurvival=$(tail -n 4 "$SURVIVALDIR/$LogFile")
+done
+
+BACKUPDATE=$(date +"%Y-%m-%d_%H-%M-%S")
+mkdir "$BACKUPDIR/$BACKUPDATE"
+/bin/tar cz --exclude=behavior_packs/* --exclude=resource_packs/* -f "$BACKUPDIR/$BACKUPDATE/Survival.tar.gz" "$SURVIVALDIR/worlds/Survival"
+/bin/tar cz --exclude=behavior_packs/* --exclude=resource_packs/* -f "$BACKUPDIR/$BACKUPDATE/Creative.tar.gz" "$CREATIVEDIR/worlds/Creative"
+
+runAllWorlds "^u"
+runAllWorlds "save resume\n"
