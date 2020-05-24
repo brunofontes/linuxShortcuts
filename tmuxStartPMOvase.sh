@@ -29,6 +29,6 @@ done
 tmux send -t pmovase:0.1 $'npm run test-watch\n'
 tmux send -t pmovase:0.2 $'^u'
 tmux send -t pmovase:0.2 $'phpunit-watcher watch\n'
-tmux send -t pmovase:0.3 $'ssh homestead -t \"cd code;clear; figlet Vagrant;bash --login\"\n'
-tmux send -t pmovase:0.4 $'clear;figlet PMova-se\n'
+tmux send -t pmovase:0.3 $'ssh homestead -t \"cd code;alias clear='clear; figlet Vagrant';clear;bash --login\"\n'
+tmux send -t pmovase:0.4 $'alias clear='clear;figlet PMova-se';clear\n'
 
