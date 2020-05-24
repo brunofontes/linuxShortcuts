@@ -50,8 +50,8 @@ done
 
 BACKUPDATE=$(date +"%Y-%m-%d_%H-%M-%S")
 mkdir "$BACKUPDIR/$BACKUPDATE"
-/bin/tar c --exclude=behavior_packs/* --exclude=resource_packs/* "$SURVIVALDIR/worlds/Survival" | zbackup --nonencrypted backup "$BACKUPDIR/$BACKUPDATE-Survival" 
-/bin/tar c --exclude=behavior_packs/* --exclude=resource_packs/* "$CREATIVEDIR/worlds/Creative" | zbackup --nonencrypted backup "$BACKUPDIR/$BACKUPDATE-Creative" 
+/bin/tar c --exclude=behavior_packs/* --exclude=resource_packs/* "$SURVIVALDIR/worlds/Survival" | zbackup --non-encrypted backup "$BACKUPDIR/$BACKUPDATE-Survival" 
+/bin/tar c --exclude=behavior_packs/* --exclude=resource_packs/* "$CREATIVEDIR/worlds/Creative" | zbackup --non-encrypted backup "$BACKUPDIR/$BACKUPDATE-Creative" 
 
 runAllWorlds "^u"
 runAllWorlds "save resume\n"
