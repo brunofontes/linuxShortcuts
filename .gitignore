@@ -2,3 +2,4 @@
 .serverBackupPath
 .sshKeyBackupPath
 .sshKey
+Backup/.lastDisk

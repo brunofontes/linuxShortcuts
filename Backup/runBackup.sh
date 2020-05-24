@@ -1,1 +1,1 @@
-terminator -m -T BACKUP -x sudo systemd-inhibit bash .Backup_HD_1TB.sh &
+terminator -m -T BACKUP -x sudo systemd-inhibit bash /home/bruno/Apps/linuxShortcuts/Backup/.Backup_HD.sh &

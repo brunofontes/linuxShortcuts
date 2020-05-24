@@ -2,7 +2,7 @@ if ! screen -list | grep -q "Minecraft"; then
   exit 1
 fi
 
-BACKUPDIR="/home/bruno/Backups/Minecraft"
+BACKUPDIR="/home/bruno/Backups/zBackup-Minecraft/backups"
 SERVERDIR="/home/bruno/Apps/Minecraft"
 SURVIVALDIR="$SERVERDIR/BedrockServer_Survival_19132"
 CREATIVEDIR="$SERVERDIR/BedrockServer_Creative_19134"
@@ -50,8 +50,8 @@ done
 
 BACKUPDATE=$(date +"%Y-%m-%d_%H-%M-%S")
 mkdir "$BACKUPDIR/$BACKUPDATE"
-/bin/tar cz --exclude=behavior_packs/* --exclude=resource_packs/* -f "$BACKUPDIR/$BACKUPDATE/Survival.tar.gz" "$SURVIVALDIR/worlds/Survival"
-/bin/tar cz --exclude=behavior_packs/* --exclude=resource_packs/* -f "$BACKUPDIR/$BACKUPDATE/Creative.tar.gz" "$CREATIVEDIR/worlds/Creative"
+/bin/tar c --exclude=behavior_packs/* --exclude=resource_packs/* "$SURVIVALDIR/worlds/Survival" | zbackup --nonencrypted backup "$BACKUPDIR/$BACKUPDATE-Survival" 
+/bin/tar c --exclude=behavior_packs/* --exclude=resource_packs/* "$CREATIVEDIR/worlds/Creative" | zbackup --nonencrypted backup "$BACKUPDIR/$BACKUPDATE-Creative" 
 
 runAllWorlds "^u"
 runAllWorlds "save resume\n"
