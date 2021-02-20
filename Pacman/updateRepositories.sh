@@ -6,26 +6,26 @@ function bold() {
 }
 
 function s() {
-   echo -e "$sudoPass\n" | sudo -S $1
+   #echo -e "$sudoPass\n" | sudo --stdin $1 || exit 1
+   sudo $1
    echo
 }
 
-sudo -k
-echo -n Please type your sudo password:
-read -s sudoPass
+
+# bold "Pacman-mirrors -c"
+# s "pacman-mirrors -c Brazil"
+# s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
+
+s -v
 echo
-s "echo '**********'"
-
-bold "Pacman-mirrors -c"
-s "pacman-mirrors -c Brazil"
-s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
-
-bold "Updating with AURMAN..."
-s "echo"
-yay -Syu --sudoloop --noconfirm --nobatchinstall
+bold "Updating..."
+yay -Syu --sudoloop --noconfirm --nobatchinstall --cleanafter
 
 bold "Cleaning stuff..."
-s "echo"
+s -v
 yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
+s -v
+yay -Sc --noconfirm
 
+s -k
 notify-send "Update script has finished!"
