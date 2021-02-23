@@ -1,0 +1,6 @@
+[Unit]
+Description=Backup joplin weekly
+
+[Service]
+User=bruno
+ExecStart=/home/bruno/Apps/linuxShortcuts/Services/backup-joplin.sh
