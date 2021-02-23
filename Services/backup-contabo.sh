@@ -1,4 +1,10 @@
 #! /bin/bash
+
+if [[ `nmcli -t -f GENERAL.METERED dev show | grep "METERED:yes"` ]]; then
+    echo Backup does not work on metered connections
+    exit 1
+fi
+
 if [[ -z $CONTABO_BACKUP_PATH ]]; then
     echo CONTABO_BACKUP_PATH environment not set
     exit 1

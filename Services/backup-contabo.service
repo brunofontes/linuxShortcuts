@@ -3,3 +3,4 @@ Description=Backup contabo daily
 
 [Service]
 ExecStart=/home/bruno/Backups/Contabo/backup-contabo.sh
+EnvironmentFile=/home/bruno/Apps/linuxShortcuts/Services/backup-contabo.env
