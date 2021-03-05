@@ -1,5 +1,6 @@
 [Unit]
 Description=Minecraft Informa a Hora Certa
+OnFailure=logErrors@%n.service
 
 [Service]
 User=bruno

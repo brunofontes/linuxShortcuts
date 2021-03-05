@@ -2,6 +2,7 @@
 Description=Test and fix DNS update with wrong time
 Wants=network-online.target
 After=network-online.target
+OnFailure=logErrors@%n.service
 
 [Service]
 Type=oneshot

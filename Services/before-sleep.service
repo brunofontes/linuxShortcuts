@@ -1,6 +1,7 @@
 [Unit]
 Description=Bruno Fontes script before sleep
 Before=sleep.target
+OnFailure=logErrors@%n.service
 
 [Service]
 Type=oneshot

@@ -1,5 +1,6 @@
 [Unit]
 Description=Backup contabo daily
+OnFailure=logErrors@%n.service
 
 [Service]
 ExecStart=/home/bruno/Backups/Contabo/backup-contabo.sh
