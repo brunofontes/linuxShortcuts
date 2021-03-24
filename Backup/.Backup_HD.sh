@@ -1,3 +1,43 @@
+function backup () {
+    # $1 - Repository
+    # $2-$N - Files/Folders to backup
+
+    #--stats = show stats at end
+    #--progress = show each file being processed
+    nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude $*
+    checkBackup "$1"
+}
+
+function checkBackup() {
+    echo -n "`date +%r`- Checking the backup..."
+    borg check "$1" > "$1"_status
+    if [[ $(cat "$1"_status) != "" ]]; then
+        echo -e "\n\033[1;31m ERROR UNPACKING $1 \033[0m"
+    else
+        echo ".OK!"
+        rm "$1"_status
+    fi
+    echo
+}
+
+function verifyBackup() {
+    # Verify all data - takes long time
+    echo -n "`date +%r`- Checking the backup..."
+    borg check --verify-data "$1" > "$1"_status
+    if [[ $(cat "$1"_status) != "" ]]; then
+        echo -e "\n\033[1;31m ERROR UNPACKING $1 \033[0m"
+    else
+        echo ".OK!"
+        rm "$1"_status
+    fi
+    echo
+}
+
+function pruneBackup() {
+    echo -e "\e[97m`date +%r` - Prune old backups...\e[39m"
+    borg prune -v --list --dry-run --keep-within=1m --keep-monthly=3
+}
+
 cd /home/bruno/Apps/linuxShortcuts/Backup/
 
 LastDisk=$(< .lastDisk)
@@ -10,13 +50,13 @@ fi
 YEAR=`date +%Y`
 HDPath="/run/media/bruno/Backup_$ActiveDisk"
 
-ZBACKUP="$HDPath/`date +%Y-Q%q`"
+BACKUPPATH="$HDPath/`date +%Y-Q%q`"
 YEARMONTH=`date +%m_%b-%d`
-HDYEARMONTH="$ZBACKUP/backups/$YEARMONTH"
+HDYEARMONTH="$BACKUPPATH::$YEARMONTH"
 
 echo
 echo "Disk              : $ActiveDisk"
-echo "HD Backup path    : $ZBACKUP"
+echo "HD Backup path    : $BACKUPPATH"
 echo "HD Year-Month path: $HDYEARMONTH"
 echo
 echo "Please, insert Disk #$ActiveDisk and press enter to start backup"
@@ -38,9 +78,9 @@ done
 echo ".OK!"
 echo
 
-if [ ! -d "$ZBACKUP" ]; then
-    mkdir -p "$ZBACKUP"
-    zbackup init --non-encrypted "$ZBACKUP"
+if [ ! -d "$BACKUPPATH" ]; then
+    mkdir -p "$BACKUPPATH"
+    borg init --encryption=none $BACKUPPATH
 
     #If diskSpace less than ~100GB...
     diskSpace=$(df --local --output=avail,target | grep "$HDPath\$" | awk '{ print $1}')
@@ -49,41 +89,27 @@ if [ ! -d "$ZBACKUP" ]; then
         oldestFolder=$(/bin/ls -dt "$HDPath"/????-Q? | tail -n 1)
         echo
         echo "$HDPath/$oldestFolder"
-        rm -rI "$HDPath/$oldestFolder"
+        rm --recursive --interactive=once "$HDPath/$oldestFolder" 
     fi
 fi
 
-mkdir -p "$HDYEARMONTH"
-
-function backup () {
-    nice -n 19 tar c --exclude-ignore=.no-backup --add-file=.backup --exclude-from=./exclude "$1" | zbackup backup --non-encrypted --silent "$2"
-    echo "`date +%r`- Checking the backup..."
-    zbackup restore --silent --non-encrypted "$2" > /dev/null 2> "$2"_status
-    if [[ $(cat "$2"_status) != "" ]]; then
-        echo -e "\033[1;31m ERROR UNPACKING $2 \033[0m"
-    fi
-    echo
-}
-
 echo -e "\e[97m`date +%r` - Copying Linux Home folder (1/7)...\e[39m"
 echo -e "\e[97m            `date +%r` - Bruno\e[39m"
-backup "/home/bruno/" "$HDYEARMONTH/LinuxHome-bruno" || echo ""
+backup "$HDYEARMONTH-LinuxHome-bruno" "/home/bruno/" || echo ""
 
 echo -e "\e[97m            `date +%r` - Admin\e[39m"
-backup "/home/admin/" "$HDYEARMONTH/LinuxHome-admin" || echo ""
-
-echo -e "\e[97m            `date +%r` - Lost+Found\e[39m"
-backup "/home/lost+found/" "$HDYEARMONTH/LinuxHome-lost+found" || echo ""
+backup "$HDYEARMONTH-LinuxHome-admin" "/home/admin/" || echo ""
 
 echo -e "\e[97m`date +%r` - Copying Localização folder (2/7)...\e[39m"
-backup "/run/media/bruno/Multimedia/Localização/" "$HDYEARMONTH/Multimedia-localizacao" || echo ""
+backup "$HDYEARMONTH-Multimedia-localizacao" "/run/media/bruno/Multimedia/Localização/" || echo ""
 
 echo -e "\e[97m`date +%r` - Copying My Documents folder (3/7)...\e[39m"
-backup "/run/media/bruno/Multimedia/MyDocuments/" "$HDYEARMONTH/Multimedia-MyDocuments" || echo ""
+backup "$HDYEARMONTH-Multimedia-MyDocuments" "/run/media/bruno/Multimedia/MyDocuments/" || echo ""
 
 echo -e "\e[97m`date +%r` - Copying Música folder (4/7)...\e[39m"
-backup "/run/media/bruno/Multimedia/Música/" "$HDYEARMONTH/Multimedia-musica" || echo ""
+backup "$HDYEARMONTH-Multimedia-musica" "/run/media/bruno/Multimedia/Música/" || echo ""
 
+verifyBackup "$BACKUPPATH"
 
 # Rsync Fotos e VMs
 echo -e "\e[97m`date +%r` - Copying Fotos folder (5/7)...\e[39m"
@@ -95,17 +121,15 @@ nice -n 19 rsync -a --exclude-from=/run/media/bruno/Multimedia/Videos/.no-backup
 echo -e "\e[97m`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
 nice -n 19 rsync -a "/run/media/bruno/Multimedia/Virtual Machines" "$HDPath/$YEAR/" || echo ""
 
-
 # Show result
 echo -e "\e[97m`date +%r` - Backup finished. Please, verify your log files.\e[39m"
 
-echo "$ActiveDisk" > .lastDisk    
+echo "$ActiveDisk" > .lastDisk
 
 kdialog --title "Backup Complete" --msgbox "Backup finished successfully"
 echo
 echo "Backup on $device is finished. Press any key to close..."
 read
-
 
 #Try to umount device
 udisksctl unmount -b "$device" && udisksctl power-off -b "$device"
