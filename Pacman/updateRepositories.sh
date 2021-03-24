@@ -6,15 +6,14 @@ function bold() {
 }
 
 function s() {
-   #echo -e "$sudoPass\n" | sudo --stdin $1 || exit 1
    sudo $1
    echo
 }
 
-
-# bold "Pacman-mirrors -c"
-# s "pacman-mirrors -c Brazil"
-# s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
+s -v
+bold "Pacman-mirrors -c"
+s "pacman-mirrors -c Brazil"
+s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
 
 s -v
 echo
