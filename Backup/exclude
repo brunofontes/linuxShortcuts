@@ -1,9 +1,10 @@
 /home/bruno/.AndroidStudio3.1
 /home/bruno/.cache/
 /home/bruno/.electron
+/home/bruno/.local/share/dino/files
+/home/bruno/.local/share/gajim/downloads
 /home/bruno/.minecraft/
 /home/bruno/.netbeans
-/home/bruno/.nixnote
 /home/bruno/.node-gyp
 /home/bruno/.npm
 /home/bruno/.npm-global
@@ -14,6 +15,7 @@
 /home/bruno/.wine/
 /home/bruno/Android/
 /home/bruno/Apps/Minecraft/Backups/
+/home/bruno/Emulation/
 /home/bruno/Videos/
 /home/bruno/VirtualBox VMs/
 /home/bruno/bin/
