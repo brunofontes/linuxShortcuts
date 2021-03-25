@@ -5,7 +5,6 @@ function backup () {
     #--stats = show stats at end
     #--progress = show each file being processed
     nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude $*
-    checkBackup "$1"
 }
 
 function checkBackup() {
@@ -20,23 +19,11 @@ function checkBackup() {
     echo
 }
 
-function verifyBackup() {
-    # Verify all data - takes long time
-    echo -n "`date +%r`- Checking the backup..."
-    borg check --verify-data "$1" > "$1"_status
-    if [[ $(cat "$1"_status) != "" ]]; then
-        echo -e "\n\033[1;31m ERROR UNPACKING $1 \033[0m"
-    else
-        echo ".OK!"
-        rm "$1"_status
-    fi
-    echo
-}
-
 function pruneBackup() {
     echo -e "\e[97m`date +%r` - Prune old backups...\e[39m"
-    borg prune -v --list --dry-run --keep-within=1m --keep-monthly=3
+    borg prune -v --list --dry-run --keep-weekly=8 --keep-monthly=12 --keep-yearly=3 $1
 }
+
 
 cd /home/bruno/Apps/linuxShortcuts/Backup/
 
@@ -47,11 +34,18 @@ else
     ActiveDisk=1
 fi
 
+LastBackupSet=$(< .lastBackupSetDisk_$lastDisk)
+if [ "$LastBackupSet" = '1' ]; then
+    ActiveBackupSet=2
+else
+    ActiveBackupSet=1
+fi
+
 YEAR=`date +%Y`
 HDPath="/run/media/bruno/Backup_$ActiveDisk"
 
-BACKUPPATH="$HDPath/`date +%Y-Q%q`"
-YEARMONTH=`date +%m_%b-%d`
+BACKUPPATH="$HDPath/Repository_$ActiveBackupSet"
+YEARMONTH=`date +%Y-%m-%d`
 HDYEARMONTH="$BACKUPPATH::$YEARMONTH"
 
 echo
@@ -82,15 +76,8 @@ if [ ! -d "$BACKUPPATH" ]; then
     mkdir -p "$BACKUPPATH"
     borg init --encryption=none $BACKUPPATH
 
-    #If diskSpace less than ~100GB...
-    diskSpace=$(df --local --output=avail,target | grep "$HDPath\$" | awk '{ print $1}')
-    if [[ "$diskSpace" < 100000000 ]]; then
-        # delete oldest backup folder
-        oldestFolder=$(/bin/ls -dt "$HDPath"/????-Q? | tail -n 1)
-        echo
-        echo "$HDPath/$oldestFolder"
-        rm --recursive --interactive=once "$HDPath/$oldestFolder" 
-    fi
+    #Prune old backups
+    pruneBackup $BACKUPPATH
 fi
 
 echo -e "\e[97m`date +%r` - Copying Linux Home folder (1/7)...\e[39m"
@@ -109,7 +96,7 @@ backup "$HDYEARMONTH-Multimedia-MyDocuments" "/run/media/bruno/Multimedia/MyDocu
 echo -e "\e[97m`date +%r` - Copying Música folder (4/7)...\e[39m"
 backup "$HDYEARMONTH-Multimedia-musica" "/run/media/bruno/Multimedia/Música/" || echo ""
 
-verifyBackup "$BACKUPPATH"
+checkBackup "$BACKUPPATH"
 
 # Rsync Fotos e VMs
 echo -e "\e[97m`date +%r` - Copying Fotos folder (5/7)...\e[39m"
@@ -125,6 +112,7 @@ nice -n 19 rsync -a "/run/media/bruno/Multimedia/Virtual Machines" "$HDPath/$YEA
 echo -e "\e[97m`date +%r` - Backup finished. Please, verify your log files.\e[39m"
 
 echo "$ActiveDisk" > .lastDisk
+echo "$ActiveBackupSet" > ".lastBackupSetDisk_$lastDisk"
 
 kdialog --title "Backup Complete" --msgbox "Backup finished successfully"
 echo
