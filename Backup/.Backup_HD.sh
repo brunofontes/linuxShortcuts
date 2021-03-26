@@ -4,7 +4,7 @@ function backup () {
 
     #--stats = show stats at end
     #--progress = show each file being processed
-    nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude $*
+    nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude $1 "$2"
 }
 
 function backupNoCompression () {
@@ -13,7 +13,7 @@ function backupNoCompression () {
 
     #--stats = show stats at end
     #--progress = show each file being processed
-    nice -n 19 borg create --compression none --exclude-from=./exclude $*
+    nice -n 19 borg create --compression none --exclude-from=./exclude $1 "$2"
 }
 
 function checkBackup() {
@@ -110,7 +110,7 @@ backupNoCompression "$HDPath/Videos::$YEARMONTH" "/run/media/bruno/Multimedia/Vi
 checkBackup "$HDPath/Videos/"
 
 echo -e "\e[97m`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
-backup "$HDPath/VirtualMachines::$YEARMONTH" "/run/media/bruno/Multimedia/Virtual\ Machines" || echo ""
+backup "$HDPath/VirtualMachines::$YEARMONTH-2" "/run/media/bruno/Multimedia/Virtual Machines" || echo ""
 checkBackup "$HDPath/VirtualMachines/"
 
 # Show result
