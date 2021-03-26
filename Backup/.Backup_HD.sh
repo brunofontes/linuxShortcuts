@@ -7,6 +7,15 @@ function backup () {
     nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude $*
 }
 
+function backupNoCompression () {
+    # $1 - Repository
+    # $2-$N - Files/Folders to backup
+
+    #--stats = show stats at end
+    #--progress = show each file being processed
+    nice -n 19 borg create --compression none --exclude-from=./exclude $*
+}
+
 function checkBackup() {
     echo -n "`date +%r`- Checking the backup..."
     borg check "$1" > "$1"_status
@@ -34,17 +43,10 @@ else
     ActiveDisk=1
 fi
 
-LastBackupSet=$(< .lastBackupSetDisk_$lastDisk)
-if [ "$LastBackupSet" = '1' ]; then
-    ActiveBackupSet=2
-else
-    ActiveBackupSet=1
-fi
-
 YEAR=`date +%Y`
 HDPath="/run/media/bruno/Backup_$ActiveDisk"
 
-BACKUPPATH="$HDPath/Repository_$ActiveBackupSet"
+BACKUPPATH="$HDPath/Backup"
 YEARMONTH=`date +%Y-%m-%d`
 HDYEARMONTH="$BACKUPPATH::$YEARMONTH"
 
@@ -100,13 +102,16 @@ checkBackup "$BACKUPPATH"
 
 # Rsync Fotos e VMs
 echo -e "\e[97m`date +%r` - Copying Fotos folder (5/7)...\e[39m"
-nice -n 19 rsync -a "/run/media/bruno/Multimedia/Fotos" "$HDPath/$YEAR/" || echo ""
+backupNoCompression "$HDPath/Fotos::$YEARMONTH" "/run/media/bruno/Multimedia/Fotos" || echo ""
+checkBackup "$HDPath/Fotos/"
 
 echo -e "\e[97m`date +%r` - Copying Video folder (6/7)...\e[39m"
-nice -n 19 rsync -a --exclude-from=/run/media/bruno/Multimedia/Videos/.no-backup "/run/media/bruno/Multimedia/Videos" "$HDPath/$YEAR/" || echo ""
+backupNoCompression "$HDPath/Videos::$YEARMONTH" "/run/media/bruno/Multimedia/Videos" || echo ""
+checkBackup "$HDPath/Videos/"
 
 echo -e "\e[97m`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
-nice -n 19 rsync -a "/run/media/bruno/Multimedia/Virtual Machines" "$HDPath/$YEAR/" || echo ""
+backup "$HDPath/VirtualMachines::$YEARMONTH" "/run/media/bruno/Multimedia/Virtual\ Machines" || echo ""
+checkBackup "$HDPath/VirtualMachines/"
 
 # Show result
 echo -e "\e[97m`date +%r` - Backup finished. Please, verify your log files.\e[39m"
