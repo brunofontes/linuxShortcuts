@@ -6,8 +6,8 @@ if screen -list | grep -q "Minecraft"; then
 fi
 
 if [[ -z $publicBackup && -z $otherBackup ]] ; then
-    echo "Entrei"
-    exit 1
+    echo "Minecraft is not running. Exiting..."
+    exit 0
 fi
 
 BACKUPDIR="/home/bruno/Backups/zBackup-Minecraft/backups"
