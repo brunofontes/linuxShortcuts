@@ -10,7 +10,7 @@ if [[ -z $publicBackup && -z $otherBackup ]] ; then
     exit 0
 fi
 
-BACKUPDIR="/home/bruno/Backups/zBackup-Minecraft/backups"
+BACKUPDIR="/home/bruno/Backups/Minecraft-borg"
 SERVERDIR="/home/bruno/Apps/Minecraft"
 PUBLICDIR="$SERVERDIR/BedrockServer_Public_19132"
 SURVIVALDIR="$SERVERDIR/BedrockServer_Survival_19132"
@@ -49,7 +49,7 @@ if [[ $publicBackup ]]; then
         runPublic "say ^usave query\n"
         finishedPublic=$(tail -n 4 "$PUBLICDIR/$LogFile")
     done
-    /bin/tar c "$PUBLICDIR/worlds" | zbackup --non-encrypted backup "$BACKUPDIR/$BACKUPDATE/MncftPublic" 
+    borg create --stats --compression auto,zstd,9 "$BACKUPDIR::$BACKUPDATE-MncftPublic" "$PUBLICDIR"
     runPublic "say ^usave resume\n"
 fi
 
@@ -85,9 +85,9 @@ if [[ $otherBackup ]]; then
         finishedSurvival=$(tail -n 4 "$SURVIVALDIR/$LogFile")
     done
 
-    /bin/tar c "$SURVIVALDIR/worlds" | zbackup --non-encrypted backup "$BACKUPDIR/$BACKUPDATE/Survival" 
-    /bin/tar c "$CREATIVEDIR/worlds" | zbackup --non-encrypted backup "$BACKUPDIR/$BACKUPDATE/Creative" 
+    borg create --stats --compression auto,zstd,9 "$BACKUPDIR::$BACKUPDATE-MncftSurvival" "$SURVIVALDIR"
+    borg create --stats --compression auto,zstd,9 "$BACKUPDIR::$BACKUPDATE-MncftCreative" "$CREATIVEDIR"
     runSurvival "^u"
     runSurvival "save resume\n"
 fi
-
+borg prune --keep-within=3d --keep-hourly=96 --keep-weekly=8 --keep-monthly=6 "$BACKUPDIR"
