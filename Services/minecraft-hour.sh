@@ -18,7 +18,6 @@ CREATIVEDIR="$SERVERDIR/BedrockServer_Creative_19134"
 LogFile="log.txt"
 
 BACKUPDATE=$(date +"%Y-%m-%d_%H-%M-%S")
-mkdir "$BACKUPDIR/$BACKUPDATE"
 
 alias run='screen -S Minecraft -X'
 alias runSurvival='run at Survival stuff'
