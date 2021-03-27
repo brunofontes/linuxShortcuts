@@ -110,7 +110,7 @@ backupNoCompression "$HDPath/Videos::$YEARMONTH" "/run/media/bruno/Multimedia/Vi
 checkBackup "$HDPath/Videos/"
 
 echo -e "\e[97m`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
-backup "$HDPath/VirtualMachines::$YEARMONTH-2" "/run/media/bruno/Multimedia/Virtual Machines" || echo ""
+backup "$HDPath/VirtualMachines::$YEARMONTH" "/run/media/bruno/Multimedia/Virtual Machines" || echo ""
 checkBackup "$HDPath/VirtualMachines/"
 
 # Show result
