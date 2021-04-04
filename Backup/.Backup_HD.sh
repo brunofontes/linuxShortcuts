@@ -1,36 +1,60 @@
+# Ansi color code variables
+red="\e[0;91m"
+blue="\e[0;94m"
+expand_bg="\e[K"
+blue_bg="\e[0;104m${expand_bg}"
+red_bg="\e[0;101m${expand_bg}"
+green_bg="\e[0;102m${expand_bg}"
+green="\e[0;92m"
+white="\e[0;97m"
+bold="\e[1m"
+uline="\e[4m"
+reset="\e[0m"
+
 function backup () {
     # $1 - Repository
-    # $2-$N - Files/Folders to backup
-
-    #--stats = show stats at end
-    #--progress = show each file being processed
-    nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude $1 "$2"
+    # $2 - Backup name
+    # $3 - Files/Folders to backup
+    prepareFolder $1
+    echo -e "${blue}            `date +%r` - Backing up (compressed)...${reset}"
+    nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude "$1::$2" "$3"
+    checkBackup $1
 }
 
 function backupNoCompression () {
     # $1 - Repository
-    # $2-$N - Files/Folders to backup
+    # $2 - Backup name
+    # $3 - Files/Folders to backup
+    prepareFolder $1
+    echo -e "${blue}            `date +%r` - Backing up (uncompressed)...${reset}"
+    nice -n 19 borg create --compression none --exclude-from=./exclude "$1::$2" "$3"
+    checkBackup $1
+}
 
-    #--stats = show stats at end
-    #--progress = show each file being processed
-    nice -n 19 borg create --compression none --exclude-from=./exclude $1 "$2"
+function prepareFolder() {
+    if [ ! -d "$1" ]; then
+        mkdir -p "$1"
+        borg init --encryption=none $1
+    else
+        pruneBackup $1
+    fi
 }
 
 function checkBackup() {
-    echo -n "`date +%r`- Checking the backup..."
+    echo -e -n "${blue}            `date +%r` - Checking the backup...${reset}"
     borg check "$1" > "$1"_status
     if [[ $(cat "$1"_status) != "" ]]; then
         echo -e "\n\033[1;31m ERROR UNPACKING $1 \033[0m"
     else
-        echo ".OK!"
+        echo -e ".${green}OK!${reset}"
         rm "$1"_status
     fi
     echo
 }
 
 function pruneBackup() {
-    echo -e "\e[97m`date +%r` - Prune old backups...\e[39m"
-    borg prune -v --list --dry-run --keep-weekly=8 --keep-monthly=12 --keep-yearly=3 $1
+    echo -e "${blue}            `date +%r` - Prune old backups...${reset}"
+    borg prune --keep-within=1y --keep-daily=30 --keep-weekly=12 --keep-monthly=24 --keep-yearly=3 $1
 }
 
 
@@ -48,12 +72,10 @@ HDPath="/run/media/bruno/Backup_$ActiveDisk"
 
 BACKUPPATH="$HDPath/Backup"
 YEARMONTH=`date +%Y-%m-%d`
-HDYEARMONTH="$BACKUPPATH::$YEARMONTH"
 
 echo
 echo "Disk              : $ActiveDisk"
 echo "HD Backup path    : $BACKUPPATH"
-echo "HD Year-Month path: $HDYEARMONTH"
 echo
 echo "Please, insert Disk #$ActiveDisk and press enter to start backup"
 read
@@ -71,50 +93,36 @@ done
 
 # If folder does not exist, exit with error
 [ ! -d "$HDPath" ] && echo "This disk was used last time. Please, plug Backup_$ActiveDisk before running this script." && read && exit 1
-echo ".OK!"
+echo -e ".${green}OK!${reset}"
 echo
 
-if [ ! -d "$BACKUPPATH" ]; then
-    mkdir -p "$BACKUPPATH"
-    borg init --encryption=none $BACKUPPATH
+echo -e "${white}`date +%r` - Copying Linux Home folder (1/7)...\e[39m"
+echo -e "${white}            `date +%r` - Bruno\e[39m"
+backup "$HDPath/LinuxHome-Bruno" "$YEARMONTH" "/home/bruno/" || echo ""
 
-    #Prune old backups
-    pruneBackup $BACKUPPATH
-fi
+echo -e "${white}            `date +%r` - Admin\e[39m"
+backup "$HDPath/LinuxHome-Admin" "$YEARMONTH" "/home/admin/" || echo ""
 
-echo -e "\e[97m`date +%r` - Copying Linux Home folder (1/7)...\e[39m"
-echo -e "\e[97m            `date +%r` - Bruno\e[39m"
-backup "$HDYEARMONTH-LinuxHome-bruno" "/home/bruno/" || echo ""
+echo -e "${white}`date +%r` - Copying Localização folder (2/7)...\e[39m"
+backup "$HDPath/Multimedia-Localizacao" "$YEARMONTH" "/run/media/bruno/Multimedia/Localização/" || echo ""
 
-echo -e "\e[97m            `date +%r` - Admin\e[39m"
-backup "$HDYEARMONTH-LinuxHome-admin" "/home/admin/" || echo ""
+echo -e "${white}`date +%r` - Copying My Documents folder (3/7)...\e[39m"
+backup "$HDPath/Multimedia-MyDocuments" "$YEARMONTH" "/run/media/bruno/Multimedia/MyDocuments/" || echo ""
 
-echo -e "\e[97m`date +%r` - Copying Localização folder (2/7)...\e[39m"
-backup "$HDYEARMONTH-Multimedia-localizacao" "/run/media/bruno/Multimedia/Localização/" || echo ""
+echo -e "${white}`date +%r` - Copying Música folder (4/7)...\e[39m"
+backup "$HDPath/Multimedia-Musica" "$YEARMONTH" "/run/media/bruno/Multimedia/Música/" || echo ""
 
-echo -e "\e[97m`date +%r` - Copying My Documents folder (3/7)...\e[39m"
-backup "$HDYEARMONTH-Multimedia-MyDocuments" "/run/media/bruno/Multimedia/MyDocuments/" || echo ""
+echo -e "${white}`date +%r` - Copying Fotos folder (5/7)...\e[39m"
+backupNoCompression "$HDPath/Fotos" "$YEARMONTH" "/run/media/bruno/Multimedia/Fotos" || echo ""
 
-echo -e "\e[97m`date +%r` - Copying Música folder (4/7)...\e[39m"
-backup "$HDYEARMONTH-Multimedia-musica" "/run/media/bruno/Multimedia/Música/" || echo ""
+echo -e "${white}`date +%r` - Copying Video folder (6/7)...\e[39m"
+backupNoCompression "$HDPath/Videos" "$YEARMONTH" "/run/media/bruno/Multimedia/Videos" || echo ""
 
-checkBackup "$BACKUPPATH"
-
-# Rsync Fotos e VMs
-echo -e "\e[97m`date +%r` - Copying Fotos folder (5/7)...\e[39m"
-backupNoCompression "$HDPath/Fotos::$YEARMONTH" "/run/media/bruno/Multimedia/Fotos" || echo ""
-checkBackup "$HDPath/Fotos/"
-
-echo -e "\e[97m`date +%r` - Copying Video folder (6/7)...\e[39m"
-backupNoCompression "$HDPath/Videos::$YEARMONTH" "/run/media/bruno/Multimedia/Videos" || echo ""
-checkBackup "$HDPath/Videos/"
-
-echo -e "\e[97m`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
-backup "$HDPath/VirtualMachines::$YEARMONTH" "/run/media/bruno/Multimedia/Virtual Machines" || echo ""
-checkBackup "$HDPath/VirtualMachines/"
+echo -e "${white}`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
+backup "$HDPath/VirtualMachines" "$YEARMONTH" "/run/media/bruno/Multimedia/Virtual Machines" || echo ""
 
 # Show result
-echo -e "\e[97m`date +%r` - Backup finished. Please, verify your log files.\e[39m"
+echo -e "${green}`date +%r` - Backup finished. Please, verify your log files.\e[39m"
 
 echo "$ActiveDisk" > .lastDisk
 
