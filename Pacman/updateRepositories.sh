@@ -2,29 +2,27 @@ BOLD='\e[91m'
 NC='\e[39m'
 
 function bold() {
-   echo -e "${BOLD}$1${NC}"
+   echo -e "\n\n${BOLD}$1${NC}"
 }
 
 function s() {
-   sudo $1
-   echo
+   sudo $*
 }
 
 s -v
 bold "Pacman-mirrors -c"
-s "pacman-mirrors -c Brazil"
-s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
+s "pacman-mirrors -c Brazil" 2>/dev/null
+s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist" 2>/dev/null
 
 s -v
-echo
 bold "Updating..."
 yay -Syu --sudoloop --noconfirm --nobatchinstall --cleanafter
 
 bold "Cleaning stuff..."
 s -v
-yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
+yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always 2>/dev/null)
 s -v
-yay -Sc --noconfirm
+yay -Sc --noconfirm 2>/dev/null
 
 s -k
 notify-send "Update script has finished!"
