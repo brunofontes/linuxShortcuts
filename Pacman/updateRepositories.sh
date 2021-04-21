@@ -14,15 +14,18 @@ bold "Pacman-mirrors -c"
 s "pacman-mirrors -c Brazil" 2>/dev/null
 s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist" 2>/dev/null
 
+# From now on, exit when any command fails
+set -e
+
 s -v
 bold "Updating..."
 yay -Syu --sudoloop --noconfirm --nobatchinstall --cleanafter
 
 bold "Cleaning stuff..."
 s -v
-yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always 2>/dev/null)
-s -v
 yay -Sc --noconfirm 2>/dev/null
+s -v
+yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always 2>/dev/null)
 
 s -k
 notify-send "Update script has finished!"
