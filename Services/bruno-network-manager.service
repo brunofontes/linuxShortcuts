@@ -1,0 +1,10 @@
+[Unit]
+Description=Manages Dongle Wifi, DNS and VPN
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /home/bruno/Apps/linuxShortcuts/Services/bruno-network-manager.sh
+
+[Install]
+WantedBy=network-online.target

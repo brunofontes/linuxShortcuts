@@ -4,7 +4,7 @@ After=suspend.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/systemctl restart openvpn-client@privatvpn.service
+ExecStart=/bin/sh /home/bruno/Apps/linuxShortcuts/Services/afterWakeUp.sh
 
 [Install]
 WantedBy=suspend.target
