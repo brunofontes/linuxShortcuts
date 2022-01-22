@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BACKUP_DIR="/home/bruno/Backups/Joplin"
-JOPLIN_BIN="/bin/joplin"
+JOPLIN_BIN="/usr/bin/joplin"
 
 $JOPLIN_BIN sync
 $JOPLIN_BIN e2ee decrypt

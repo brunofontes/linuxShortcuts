@@ -1,6 +1,11 @@
 #!/bin/bash
 activity=`kactivities-cli --current-activity | cut -d" " -f3`
 
+if [[ $1 =~ .*youtube\.com.* ]]; then
+    /bin/freetube "$*" >/dev/null 2>&1 &
+    exit
+fi
+
 if [[ $1 =~ .*\&incognitottt$ ]]; then
     url="${1/\&incognitottt/}"
     [[ $activity == "OXO" ]] && /bin/brave --incognito "$url" >/dev/null 2>&1 &

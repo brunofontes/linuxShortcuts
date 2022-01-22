@@ -15,6 +15,7 @@ SERVERDIR="/home/bruno/Apps/Minecraft"
 PUBLICDIR="$SERVERDIR/BedrockServer_Public_19132"
 SURVIVALDIR="$SERVERDIR/BedrockServer_Survival_19132"
 CREATIVEDIR="$SERVERDIR/BedrockServer_Creative_19134"
+PATHTOBACKUP=""
 LogFile="log.txt"
 
 BACKUPDATE=$(date +"%Y-%m-%d_%H-%M-%S")
@@ -40,16 +41,18 @@ if [[ $publicBackup ]]; then
     timeout=30
     while [[ $finishedPublic != *"Data saved."* ]]; do
         if [[ $timeout -lt 1 ]]; then
-            notify-send "Error backuping Creative world"
+            notify-send "Error backuping Public world"
+            echo "Error Public $timeout"
             exit 1
         fi
         (( timeout-- ))
         sleep 1s
-        runPublic "say ^usave query\n"
+        echo $tmeout
+        runPublic "^usave query\n"
         finishedPublic=$(tail -n 4 "$PUBLICDIR/$LogFile")
+        PATHTOBACKUP="$PATHTOBACKUP \"$PUBLICDIR\""
     done
-    borg create --stats --compression auto,zstd,9 "$BACKUPDIR::$BACKUPDATE-MncftPublic" "$PUBLICDIR"
-    runPublic "say ^usave resume\n"
+    echo "Passou Public"
 fi
 
 if [[ $otherBackup ]]; then
@@ -67,8 +70,7 @@ if [[ $otherBackup ]]; then
         runCreative "save query\n"
         finishedCreative=$(tail -n 4 "$CREATIVEDIR/$LogFile")
     done
-    runCreative "^u"
-    runCreative "save resume\n"
+    PATHTOBACKUP="$PATHTOBACKUP \"$CREATIVEDIR\""
 
     timeout=30
     finishedSurvival=""
@@ -83,10 +85,12 @@ if [[ $otherBackup ]]; then
         runSurvival "save query\n"
         finishedSurvival=$(tail -n 4 "$SURVIVALDIR/$LogFile")
     done
-
-    borg create --stats --compression auto,zstd,9 "$BACKUPDIR::$BACKUPDATE-MncftSurvival" "$SURVIVALDIR"
-    borg create --stats --compression auto,zstd,9 "$BACKUPDIR::$BACKUPDATE-MncftCreative" "$CREATIVEDIR"
-    runSurvival "^u"
-    runSurvival "save resume\n"
+    PATHTOBACKUP="$PATHTOBACKUP \"$SURVIVALDIR\""
 fi
+
+[[ $PATHTOBACKUP ]] && borg create --stats --compression auto,zstd,9 "$BACKUPDIR::$BACKUPDATE" "$PATHTOBACKUP"
+
+[[ $publicBackup ]] && runPublic "say ^usave resume\n"
+[[ $otherBackup ]] && runSurvival "say ^usave resume\n" && runCreative "say ^usave resume\n"
+
 borg prune --keep-within=3d --keep-hourly=96 --keep-weekly=8 --keep-monthly=6 "$BACKUPDIR"

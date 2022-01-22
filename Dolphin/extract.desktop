@@ -1,0 +1,14 @@
+# Copyright 2019 Bruno Fontes <outros+dev@m.brunofontes.net>
+
+[Desktop Entry]
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin
+MimeType=application/octet-stream;inode/directory
+Actions=extract
+X-KDE-Priority=TopLevel
+X-KDE-Submenu=BFExtract
+
+[Desktop Action extract]
+Name=Extract
+Name[pt_BR]=Extrair
+Exec=bash ~/.local/share/kservices5/ServiceMenus/extract.sh %F
