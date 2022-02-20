@@ -38,7 +38,7 @@ tmux rename-window -t dashboard:2 gomuks
 # 3 - NeoMutt
 tmux new-window -t dashboard
 sleep 1
-tmux send -t dashboard:3.0 $'neomutt\n'
+tmux send -t dashboard:3.0 $'sleep 120 && neomutt\n'
 tmux rename-window -t dashboard:3 neomutt
 
 # 4 - Joplin
