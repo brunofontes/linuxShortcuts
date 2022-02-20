@@ -20,7 +20,7 @@ set -e
 
 s -v
 bold "Updating..."
-yay -Syu --sudoloop --noconfirm --nobatchinstall --cleanafter
+yay -Syu --sudoloop --answerclean none --answerdiff all --answerupgrade none --noremovemake --nobatchinstall --cleanafter]]
 
 bold "Cleaning stuff..."
 s -v
