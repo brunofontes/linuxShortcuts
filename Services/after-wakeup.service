@@ -1,6 +1,7 @@
 [Unit]
 Description=Bruno Fontes script after wakeup
 After=suspend.target
+OnFailure=logErrors@%n.service
 
 [Service]
 Type=simple

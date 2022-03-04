@@ -1,0 +1,51 @@
+#!/bin/sh
+
+if [[ $(tmux ls | grep 'dashboard') ]]; then
+    terminator -T "Dashboard" -x tmux a -t dashboard &
+    exit
+fi
+echo "Iniciando Dashboard..."
+sleep 2
+tmux new -d -s dashboard
+tmux rename-window -t dashboard "Dashboard"
+terminator -T "Dashboard" -x tmux a -t dashboard &
+sleep 10
+tmux splitw -t dashboard
+tmux splitw -h -t dashboard:0.0
+tmux resize-pane -U -t dashboard:0.2 15 
+tmux resize-pane -L -t dashboard:0.1 10
+sleep 1
+
+# 0 - Dashboard/khal
+tmux send -t dashboard:0.0 $'clear;watch --interval $((30 * 60)) --no-title --color screenfetch\n'
+tmux send -t dashboard:0.1 $'alias clear="clear;figlet Dashboard; echo -n Khal:\ ; khal list; echo;"\n'
+tmux send -t dashboard:0.2 $'btop\n'
+tmux send -t dashboard:0.1 $'clear\n'
+
+# 1 - Tut
+tmux new-window -t dashboard
+sleep 1
+tmux send -t dashboard:1.0 $'tut\n'
+tmux rename-window -t dashboard:1 tut
+tmux setw monitor-activity -t dashboard:1
+
+# 2 - GoMuks
+tmux new-window -t dashboard
+sleep 1
+tmux send -t dashboard:2.0 $'gomuks\n'
+tmux rename-window -t dashboard:2 gomuks
+
+# 3 - NeoMutt
+tmux new-window -t dashboard
+sleep 1
+tmux send -t dashboard:3.0 $'sleep 120 && neomutt\n'
+tmux rename-window -t dashboard:3 neomutt
+
+# 4 - Joplin
+tmux new-window -t dashboard
+sleep 1
+tmux send -t dashboard:4.0 $'joplin\n'
+tmux rename-window -t dashboard:4 joplin
+
+tmux select-window -t dashboard:0
+tmux setw monitor-silence -t dashboard:0

@@ -1,0 +1,5 @@
+.localBackupPath
+.serverBackupPath
+.sshKeyBackupPath
+.sshKey
+Backup/.lastDisk

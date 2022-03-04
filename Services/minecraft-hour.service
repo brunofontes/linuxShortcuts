@@ -1,0 +1,7 @@
+[Unit]
+Description=Minecraft Informa a Hora Certa
+OnFailure=logErrors@%n.service
+
+[Service]
+User=bruno
+ExecStart=/bin/sh /home/bruno/Apps/linuxShortcuts/Services/minecraft-hour.sh

@@ -1,0 +1,12 @@
+[Unit]
+Description=Properly shutdown Minecraft before PC shutdown
+OnFailure=logErrors@%n.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+User=bruno
+ExecStop=/bin/sh /home/bruno/Apps/Minecraft/stopServers.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,7 @@
 [Unit]
 Description=Run update DNS root hints montly
+OnFailure=logErrors@%n.service
 
 [Service]
 Type=oneshot
-ExecStart = /bin/bash /home/bruno/dns_update_rootHints.sh
+ExecStart = /bin/bash /home/bruno/Apps/linuxShortcuts/Services/roothints.sh

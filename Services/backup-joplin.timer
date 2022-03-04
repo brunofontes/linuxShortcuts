@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup joplin weekly
+
+[Timer]
+Persistent=true
+OnCalendar=Thu *-*-* 10:10:00
+WakeSystem=true
+#DayOfWeek Year-Month-Day Hour:Minute:Second
+
+[Install]
+WantedBy=timers.target

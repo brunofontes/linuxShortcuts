@@ -2,30 +2,31 @@ BOLD='\e[91m'
 NC='\e[39m'
 
 function bold() {
-   echo -e "${BOLD}$1${NC}"
+   echo -e "\n\n${BOLD}$1${NC}"
 }
 
 function s() {
-   echo -e "$sudoPass\n" | sudo -S $1
-   echo
+   sudo $*
 }
 
-sudo -k
-echo -n Please type your sudo password:
-read -s sudoPass
-echo
-s "echo '**********'"
+s -v
+bold "Pacman-mirrors --continent"
+s "pacman-mirrors --continent" 2>/dev/null
+# s "pacman-mirrors -c Brazil" 2>/dev/null
+s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist" 2>/dev/null
 
-bold "Pacman-mirrors -c"
-s "pacman-mirrors -c Brazil"
-s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist"
+# From now on, exit when any command fails
+set -e
 
-#bold "Updating with YAY..."
-s "echo"
-yes | yay -Syu --diffmenu --noconfirm --color always
+s -v
+bold "Updating..."
+yay -Syu --sudoloop --answerclean none --answerdiff all --answerupgrade none --noremovemake --nobatchinstall --cleanafter]]
 
 bold "Cleaning stuff..."
-s "echo"
-yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always)
+s -v
+yay -Sc --noconfirm 2>/dev/null
+s -v
+yes | (sudo -S pacman -Rns $(pacman -Qtdq) --color always 2>/dev/null)
 
+s -k
 notify-send "Update script has finished!"
