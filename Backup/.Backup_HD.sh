@@ -54,7 +54,7 @@ function checkBackup() {
 
 function pruneBackup() {
     echo -e "${blue}            `date +%r` - Prune old backups...${reset}"
-    borg prune --keep-within=1y --keep-daily=30 --keep-weekly=12 --keep-monthly=24 --keep-yearly=3 $1
+    borg prune --keep-weekly=12 --keep-monthly=24 --keep-yearly=3 $1
 }
 
 
