@@ -3,5 +3,6 @@ Description=Backup contabo daily
 OnFailure=logErrors@%n.service
 
 [Service]
+User=bruno
 ExecStart=/home/bruno/Backups/Contabo/backup-contabo.sh
 EnvironmentFile=/home/bruno/Apps/linuxShortcuts/Services/backup-contabo.env
