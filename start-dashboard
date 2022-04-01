@@ -18,9 +18,10 @@ sleep 1
 
 # 0 - Dashboard/khal
 tmux send -t dashboard:0.0 $'clear;watch --interval $((30 * 60)) --no-title --color screenfetch\n'
-tmux send -t dashboard:0.1 $'alias clear="clear;figlet Dashboard; echo -n Khal:\ ; khal list; echo;"\n'
+tmux send -t dashboard:0.1 $'alias clear="clear;figlet Dashboard; echo -n Khal:\ ; khal list --exclude-calendar rotina; echo;"\n'
 tmux send -t dashboard:0.2 $'btop\n'
 tmux send -t dashboard:0.1 $'clear\n'
+tmux send -t dashboard:0.1 $'ikhal\n'
 
 # 1 - Tut
 tmux new-window -t dashboard
@@ -47,5 +48,14 @@ sleep 1
 tmux send -t dashboard:4.0 $'joplin\n'
 tmux rename-window -t dashboard:4 joplin
 
+# Weechat keeps connecting and disconnecting and I am not reading the messages
+# so it was just creating noise in the chat rooms
+
+5 - Weechat
+tmux new-window -t dashboard
+tmux send -t dashboard:5.0 $'sleep 120; ssh contabo screen -DRS weechat\n'
+tmux rename-window -t dashboard:5 weechat
+
+# Back to Dashboard
 tmux select-window -t dashboard:0
 tmux setw monitor-silence -t dashboard:0
