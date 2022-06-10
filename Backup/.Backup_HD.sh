@@ -17,7 +17,7 @@ function backup () {
     # $3 - Files/Folders to backup
     prepareFolder $1
     echo -e "${blue}            `date +%r` - Backing up (compressed)...${reset}"
-    nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude "$1::$2" "$3"
+    ionice -c 3 nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude "$1::$2" "$3"
     checkBackup $1
 }
 
@@ -27,7 +27,7 @@ function backupNoCompression () {
     # $3 - Files/Folders to backup
     prepareFolder $1
     echo -e "${blue}            `date +%r` - Backing up (uncompressed)...${reset}"
-    nice -n 19 borg create --compression none --exclude-from=./exclude "$1::$2" "$3"
+    ionice -c 3 nice -n 19 borg create --compression none --exclude-from=./exclude "$1::$2" "$3"
     checkBackup $1
 }
 
@@ -126,6 +126,7 @@ echo -e "${green}`date +%r` - Backup finished. Please, verify your log files.\e[
 
 echo "$ActiveDisk" > .lastDisk
 
+/usr/bin/curl -d "Backup HD: Completed" ntfy.sh/bft >/dev/null 2>&1 &
 kdialog --title "Backup Complete" --msgbox "Backup finished successfully"
 echo
 echo "Backup on $device is finished. Press any key to close..."
