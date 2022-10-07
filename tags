@@ -1,0 +1,192 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/bruno/Apps/linuxShortcuts/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210905.0/
+AccuracySec	Services/minecraft-hour.timer	/^AccuracySec=1s$/;"	k	section:Timer
+After	Services/after-wakeup.service	/^After=suspend.target$/;"	k	section:Unit
+After	Services/bruno-network-manager.service	/^After=network-online.target$/;"	k	section:Unit
+After	Services/roothints.service	/^After=network.target$/;"	k	section:Unit
+After	Services/testDNS.service	/^After=network-online.target$/;"	k	section:Unit
+Before	Services/before-sleep.service	/^Before=sleep.target$/;"	k	section:Unit
+Description	Services/after-wakeup.service	/^Description=Bruno Fontes script after wakeup$/;"	k	section:Unit
+Description	Services/backup-contabo.service	/^Description=Backup contabo daily$/;"	k	section:Unit
+Description	Services/backup-contabo.timer	/^Description=Backup contabo daily$/;"	k	section:Unit
+Description	Services/backup-joplin.service	/^Description=Backup joplin weekly$/;"	k	section:Unit
+Description	Services/backup-joplin.timer	/^Description=Backup joplin weekly$/;"	k	section:Unit
+Description	Services/before-sleep.service	/^Description=Bruno Fontes script before sleep$/;"	k	section:Unit
+Description	Services/bruno-network-manager.service	/^Description=Manages Dongle Wifi, DNS and VPN$/;"	k	section:Unit
+Description	Services/logErrors@.service	/^Description=Log Systemd errors on my %i script on home$/;"	k	section:Unit
+Description	Services/mbsync.service	/^Description=Mailbox synchronization service$/;"	k	section:Unit
+Description	Services/mbsync.timer	/^Description=Mailbox synchronization timer$/;"	k	section:Unit
+Description	Services/minecraft-hour.service	/^Description=Minecraft Informa a Hora Certa$/;"	k	section:Unit
+Description	Services/minecraft-hour.timer	/^Description=Minecraft Informa a Hora Certa$/;"	k	section:Unit
+Description	Services/minecraft-stop.service	/^Description=Properly shutdown Minecraft before PC shutdown$/;"	k	section:Unit
+Description	Services/roothints.service	/^Description=Update root hints for unbound$/;"	k	section:Unit
+Description	Services/roothints.timer	/^Description=Run root.hints monthly$/;"	k	section:Unit
+Description	Services/run-media-bruno-Multimedia.mount	/^Description=Mount Multimedia out of fstab$/;"	k	section:Unit
+Description	Services/testDNS.service	/^Description=Test and fix DNS update with wrong time$/;"	k	section:Unit
+Description	Services/updateRootHints.service	/^Description=Run update DNS root hints montly$/;"	k	section:Unit
+Description	Services/updateRootHints.timer	/^Description=Run update DNS root hints montly$/;"	k	section:Unit
+Description	Services/xpra@.service	/^Description=xpra display$/;"	k	section:Unit
+Egnyte	README.md	/^## Egnyte$/;"	s	chapter:linuxShortcuts
+Environment	Services/before-sleep.service	/^Environment=DISPLAY=:0$/;"	k	section:Service
+EnvironmentFile	Services/backup-contabo.service	/^EnvironmentFile=\/home\/bruno\/Apps\/linuxShortcuts\/Services\/backup-contabo.env$/;"	k	section:Service
+EnvironmentFile	Services/xpra@.service	/^EnvironmentFile=\/etc\/conf.d\/xpra$/;"	k	section:Service
+ExecStart	Services/after-wakeup.service	/^ExecStart=\/bin\/sh \/home\/bruno\/Apps\/linuxShortcuts\/Services\/afterWakeUp.sh$/;"	k	section:Service
+ExecStart	Services/backup-contabo.service	/^ExecStart=\/home\/bruno\/Backups\/Contabo\/backup-contabo.sh$/;"	k	section:Service
+ExecStart	Services/backup-joplin.service	/^ExecStart=\/home\/bruno\/Apps\/linuxShortcuts\/Services\/backup-joplin.sh$/;"	k	section:Service
+ExecStart	Services/before-sleep.service	/^ExecStart=echo ""$/;"	k	section:Service
+ExecStart	Services/bruno-network-manager.service	/^ExecStart=\/bin\/bash \/home\/bruno\/Apps\/linuxShortcuts\/Services\/bruno-network-manager.sh$/;"	k	section:Service
+ExecStart	Services/logErrors@.service	/^ExecStart=\/home\/bruno\/Apps\/linuxShortcuts\/Services\/logError.sh %i$/;"	k	section:Service
+ExecStart	Services/logErrors@.service	/^ExecStart=\/usr\/bin\/curl -d "Michelle: fail to run %i" ntfy.sh\/bft$/;"	k	section:Service
+ExecStart	Services/mbsync.service	/^ExecStart=\/usr\/bin\/mbsync -Va$/;"	k	section:Service
+ExecStart	Services/minecraft-hour.service	/^ExecStart=\/bin\/sh \/home\/bruno\/Apps\/linuxShortcuts\/Services\/minecraft-hour.sh$/;"	k	section:Service
+ExecStart	Services/roothints.service	/^ExecStart=\/usr\/bin\/curl -o \/etc\/unbound\/root.hints https:\/\/www.internic.net\/domain\/nam/;"	k	section:Service
+ExecStart	Services/testDNS.service	/^ExecStart = \/bin\/bash \/home\/bruno\/Apps\/linuxShortcuts\/Services\/fixDNS.sh$/;"	k	section:Service
+ExecStart	Services/updateRootHints.service	/^ExecStart = \/bin\/bash \/home\/bruno\/Apps\/linuxShortcuts\/Services\/roothints.sh$/;"	k	section:Service
+ExecStart	Services/xpra@.service	/^ExecStart=\/usr\/bin\/xpra --no-daemon start ${%i}$/;"	k	section:Service
+ExecStartPost	Services/mbsync.service	/^ExecStartPost=\/home\/bruno\/dotfiles\/mutt\/notmuch-hook.sh$/;"	k	section:Service
+ExecStop	Services/minecraft-stop.service	/^ExecStop=\/bin\/sh \/home\/bruno\/Apps\/Minecraft\/stopServers.sh$/;"	k	section:Service
+Install	Services/after-wakeup.service	/^[Install]$/;"	s
+Install	Services/backup-contabo.timer	/^[Install]$/;"	s
+Install	Services/backup-joplin.timer	/^[Install]$/;"	s
+Install	Services/before-sleep.service	/^[Install]$/;"	s
+Install	Services/bruno-network-manager.service	/^[Install]$/;"	s
+Install	Services/mbsync.timer	/^[Install]$/;"	s
+Install	Services/minecraft-hour.timer	/^[Install]$/;"	s
+Install	Services/minecraft-stop.service	/^[Install]$/;"	s
+Install	Services/roothints.timer	/^[Install]$/;"	s
+Install	Services/run-media-bruno-Multimedia.mount	/^[Install]$/;"	s
+Install	Services/testDNS.service	/^[Install]$/;"	s
+Install	Services/updateRootHints.timer	/^[Install]$/;"	s
+Install	Services/xpra@.service	/^[Install]$/;"	s
+Mount	Services/run-media-bruno-Multimedia.mount	/^[Mount]$/;"	s
+OnBootSec	Services/mbsync.timer	/^OnBootSec=2m$/;"	k	section:Timer
+OnCalendar	Services/backup-contabo.timer	/^OnCalendar=*-*-* 10:15:00$/;"	k	section:Timer
+OnCalendar	Services/backup-joplin.timer	/^OnCalendar=Thu *-*-* 10:10:00$/;"	k	section:Timer
+OnCalendar	Services/minecraft-hour.timer	/^OnCalendar=*-*-* *:0,15,30,45:00$/;"	k	section:Timer
+OnCalendar	Services/roothints.timer	/^OnCalendar=monthly$/;"	k	section:Timer
+OnCalendar	Services/updateRootHints.timer	/^OnCalendar=monthly$/;"	k	section:Timer
+OnFailure	Services/after-wakeup.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/backup-contabo.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/backup-joplin.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/before-sleep.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/minecraft-hour.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/minecraft-stop.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/roothints.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/testDNS.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/updateRootHints.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnUnitActiveSec	Services/mbsync.timer	/^OnUnitActiveSec=5m$/;"	k	section:Timer
+Options	Services/run-media-bruno-Multimedia.mount	/^Options=defaults$/;"	k	section:Mount
+Pacman	README.md	/^## Pacman$/;"	s	chapter:linuxShortcuts
+Persistent	Services/backup-contabo.timer	/^Persistent=true$/;"	k	section:Timer
+Persistent	Services/backup-joplin.timer	/^Persistent=true$/;"	k	section:Timer
+Persistent	Services/roothints.timer	/^Persistent=true$/;"	k	section:Timer
+Persistent	Services/updateRootHints.timer	/^Persistent=true$/;"	k	section:Timer
+RemainAfterExit	Services/minecraft-stop.service	/^RemainAfterExit=true$/;"	k	section:Service
+Requires	Services/minecraft-hour.timer	/^Requires=minecraft-hour.service$/;"	k	section:Unit
+SSH	README.md	/^## SSH$/;"	s	chapter:linuxShortcuts
+Service	Services/after-wakeup.service	/^[Service]$/;"	s
+Service	Services/backup-contabo.service	/^[Service]$/;"	s
+Service	Services/backup-joplin.service	/^[Service]$/;"	s
+Service	Services/before-sleep.service	/^[Service]$/;"	s
+Service	Services/bruno-network-manager.service	/^[Service]$/;"	s
+Service	Services/logErrors@.service	/^[Service]$/;"	s
+Service	Services/mbsync.service	/^[Service]$/;"	s
+Service	Services/minecraft-hour.service	/^[Service]$/;"	s
+Service	Services/minecraft-stop.service	/^[Service]$/;"	s
+Service	Services/roothints.service	/^[Service]$/;"	s
+Service	Services/testDNS.service	/^[Service]$/;"	s
+Service	Services/updateRootHints.service	/^[Service]$/;"	s
+Service	Services/xpra@.service	/^[Service]$/;"	s
+Services	README.md	/^## Services$/;"	s	chapter:linuxShortcuts
+Timer	Services/backup-contabo.timer	/^[Timer]$/;"	s
+Timer	Services/backup-joplin.timer	/^[Timer]$/;"	s
+Timer	Services/mbsync.timer	/^[Timer]$/;"	s
+Timer	Services/minecraft-hour.timer	/^[Timer]$/;"	s
+Timer	Services/roothints.timer	/^[Timer]$/;"	s
+Timer	Services/updateRootHints.timer	/^[Timer]$/;"	s
+Type	Services/after-wakeup.service	/^Type=simple$/;"	k	section:Service
+Type	Services/before-sleep.service	/^Type=oneshot$/;"	k	section:Service
+Type	Services/bruno-network-manager.service	/^Type=oneshot$/;"	k	section:Service
+Type	Services/mbsync.service	/^Type=oneshot$/;"	k	section:Service
+Type	Services/minecraft-stop.service	/^Type=oneshot$/;"	k	section:Service
+Type	Services/run-media-bruno-Multimedia.mount	/^Type=ntfs$/;"	k	section:Mount
+Type	Services/testDNS.service	/^Type=oneshot$/;"	k	section:Service
+Type	Services/updateRootHints.service	/^Type=oneshot$/;"	k	section:Service
+Type	Services/xpra@.service	/^Type=simple$/;"	k	section:Service
+Unit	Services/after-wakeup.service	/^[Unit]$/;"	s
+Unit	Services/backup-contabo.service	/^[Unit]$/;"	s
+Unit	Services/backup-contabo.timer	/^[Unit]$/;"	s
+Unit	Services/backup-joplin.service	/^[Unit]$/;"	s
+Unit	Services/backup-joplin.timer	/^[Unit]$/;"	s
+Unit	Services/before-sleep.service	/^[Unit]$/;"	s
+Unit	Services/bruno-network-manager.service	/^[Unit]$/;"	s
+Unit	Services/logErrors@.service	/^[Unit]$/;"	s
+Unit	Services/mbsync.service	/^[Unit]$/;"	s
+Unit	Services/mbsync.timer	/^Unit=mbsync.service$/;"	k	section:Timer
+Unit	Services/mbsync.timer	/^[Unit]$/;"	s
+Unit	Services/minecraft-hour.service	/^[Unit]$/;"	s
+Unit	Services/minecraft-hour.timer	/^Unit=minecraft-hour.service$/;"	k	section:Timer
+Unit	Services/minecraft-hour.timer	/^[Unit]$/;"	s
+Unit	Services/minecraft-stop.service	/^[Unit]$/;"	s
+Unit	Services/roothints.service	/^[Unit]$/;"	s
+Unit	Services/roothints.timer	/^[Unit]$/;"	s
+Unit	Services/run-media-bruno-Multimedia.mount	/^[Unit]$/;"	s
+Unit	Services/testDNS.service	/^[Unit]$/;"	s
+Unit	Services/updateRootHints.service	/^[Unit]$/;"	s
+Unit	Services/updateRootHints.timer	/^[Unit]$/;"	s
+Unit	Services/xpra@.service	/^[Unit]$/;"	s
+User	Services/backup-contabo.service	/^User=bruno$/;"	k	section:Service
+User	Services/backup-joplin.service	/^User=bruno$/;"	k	section:Service
+User	Services/minecraft-hour.service	/^User=bruno$/;"	k	section:Service
+User	Services/minecraft-stop.service	/^User=bruno$/;"	k	section:Service
+User	Services/xpra@.service	/^User=%i$/;"	k	section:Service
+WakeSystem	Services/backup-contabo.timer	/^WakeSystem=true$/;"	k	section:Timer
+WakeSystem	Services/backup-joplin.timer	/^WakeSystem=true$/;"	k	section:Timer
+WantedBy	Services/after-wakeup.service	/^WantedBy=suspend.target$/;"	k	section:Install
+WantedBy	Services/backup-contabo.timer	/^WantedBy=timers.target$/;"	k	section:Install
+WantedBy	Services/backup-joplin.timer	/^WantedBy=timers.target$/;"	k	section:Install
+WantedBy	Services/before-sleep.service	/^WantedBy=sleep.target$/;"	k	section:Install
+WantedBy	Services/bruno-network-manager.service	/^WantedBy=network-online.target$/;"	k	section:Install
+WantedBy	Services/mbsync.timer	/^WantedBy=timers.target$/;"	k	section:Install
+WantedBy	Services/minecraft-hour.timer	/^WantedBy=timers.target$/;"	k	section:Install
+WantedBy	Services/minecraft-stop.service	/^WantedBy=multi-user.target$/;"	k	section:Install
+WantedBy	Services/roothints.timer	/^WantedBy=timers.target$/;"	k	section:Install
+WantedBy	Services/run-media-bruno-Multimedia.mount	/^WantedBy=multi-user.target$/;"	k	section:Install
+WantedBy	Services/testDNS.service	/^WantedBy=multi-user.target$/;"	k	section:Install
+WantedBy	Services/updateRootHints.timer	/^WantedBy=timers.target$/;"	k	section:Install
+WantedBy	Services/xpra@.service	/^WantedBy=multi-user.target$/;"	k	section:Install
+Wants	Services/testDNS.service	/^Wants=network-online.target$/;"	k	section:Unit
+What	Services/run-media-bruno-Multimedia.mount	/^What=\/dev\/disk\/by-label\/Multimedia$/;"	k	section:Mount
+Where	Services/run-media-bruno-Multimedia.mount	/^Where=\/run\/media\/bruno\/Multimedia$/;"	k	section:Mount
+apt-get	README.md	/^## apt-get$/;"	s	chapter:linuxShortcuts
+aur	README.md	/^### aur$/;"	S	section:linuxShortcuts""Pacman
+backup	Backup/.Backup_HD.sh	/^function backup () {$/;"	f
+backupNoCompression	Backup/.Backup_HD.sh	/^function backupNoCompression () {$/;"	f
+bold	Pacman/updateRepositories.sh	/^function bold() {$/;"	f
+check-ssh-identity.sh	README.md	/^### check-ssh-identity.sh$/;"	S	section:linuxShortcuts""SSH
+checkBackup	Backup/.Backup_HD.sh	/^function checkBackup() {$/;"	f
+isDNSWorking	Services/fixDNS.sh	/^function isDNSWorking() {$/;"	f
+linuxShortcuts	README.md	/^# linuxShortcuts$/;"	c
+pathToEgnyte.sh	README.md	/^### pathToEgnyte.sh$/;"	S	section:linuxShortcuts""Egnyte
+prepareFolder	Backup/.Backup_HD.sh	/^function prepareFolder() {$/;"	f
+pruneBackup	Backup/.Backup_HD.sh	/^function pruneBackup() {$/;"	f
+run	Services/minecraft-hour.sh	/^alias run='screen -S Minecraft -X'$/;"	a
+run	Services/minecraft-server-public.sh	/^alias run='screen -S MinecraftPublic -X'$/;"	a
+run-media-bruno-Multimedia.mount	README.md	/^### run-media-bruno-Multimedia.mount$/;"	S	section:linuxShortcuts""Services
+runAllWorlds	Services/minecraft-hour.sh	/^alias runAllWorlds='run at "#" stuff'$/;"	a
+runAllWorlds	Services/minecraft-server-public.sh	/^alias runAllWorlds='run at "#" stuff'$/;"	a
+runCreative	Services/minecraft-hour.sh	/^alias runCreative='run at Creative stuff'$/;"	a
+runPublic	Services/minecraft-hour.sh	/^alias runPublic='screen -S MncftPublic -X at Server stuff'$/;"	a
+runSurvival	Services/minecraft-hour.sh	/^alias runSurvival='run at Survival stuff'$/;"	a
+s	Pacman/updateRepositories.sh	/^function s() {$/;"	f
+update.sh	README.md	/^### update.sh$/;"	S	section:linuxShortcuts""apt-get
+updateRepositories.sh	README.md	/^### updateRepositories.sh$/;"	S	section:linuxShortcuts""Pacman

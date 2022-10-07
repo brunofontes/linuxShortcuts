@@ -15,7 +15,7 @@ sleep 60
 /bin/rsync --archive --backup --exclude "files/nextcloud*" --rsh=ssh backupContabo:/home/bruno/backups/* $CONTABO_BACKUP_PATH
 
 # Backup Gitea
-/bin/rsync --archive --backup --rsh=ssh bkpgitea:~/ttt/* ~/Backups/gitea/
+/bin/rsync --archive --backup --rsh=ssh gitea:/home/brunofontes/ttt/ ~/Backups/gitea/
 
 # Backup OXO Files
 /bin/rsync --archive --backup --rsh=ssh oxo:~/public_html ~/Backups/OXOwebsite/

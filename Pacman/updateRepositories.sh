@@ -9,18 +9,12 @@ function s() {
    sudo $*
 }
 
-s -v
-bold "Pacman-mirrors --continent"
-s "pacman-mirrors --continent" 2>/dev/null
-# s "pacman-mirrors -c Brazil" 2>/dev/null
-s "reflector -l 30 -f 10 --save /etc/pacman.d/mirrorlist" 2>/dev/null
-
 # From now on, exit when any command fails
 set -e
 
 s -v
 bold "Updating..."
-yay -Syu --sudoloop --answerclean none --answerdiff all --answerupgrade all --noremovemake --nobatchinstall --cleanafter
+nice --adjustment=19 ionice -c 3 yay -Syu --sudoloop --answerclean none --answerdiff all --answerupgrade all --noremovemake --norebuild --noredownload --nobatchinstall --cleanafter
 
 bold "Cleaning stuff..."
 s -v

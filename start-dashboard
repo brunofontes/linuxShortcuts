@@ -23,38 +23,46 @@ tmux send -t dashboard:0.2 $'btop\n'
 tmux send -t dashboard:0.1 $'clear\n'
 tmux send -t dashboard:0.1 $'ikhal\n'
 
-# 1 - Tut
+# 1 - Tut - Fosstodon
 tmux new-window -t dashboard
 sleep 1
-tmux send -t dashboard:1.0 $'tut\n'
-tmux rename-window -t dashboard:1 tut
+tmux send -t dashboard:1.0 $'tut --user brunofontes@fosstodon.org\n'
+tmux rename-window -t dashboard:1 "tut - Fosstodon"
 tmux setw monitor-activity -t dashboard:1
 
-# 2 - GoMuks
+# 2 - Tut - Mastodon Social
 tmux new-window -t dashboard
 sleep 1
-tmux send -t dashboard:2.0 $'gomuks\n'
-tmux rename-window -t dashboard:2 gomuks
+tmux send -t dashboard:2.0 $'tut --user brunofontes@mastodon.social\n'
+tmux rename-window -t dashboard:2 "tut - MastodonSocial"
+tmux setw monitor-activity -t dashboard:2
 
-# 3 - NeoMutt
+# 3 - GoMuks
 tmux new-window -t dashboard
 sleep 1
-tmux send -t dashboard:3.0 $'sleep 120 && neomutt\n'
-tmux rename-window -t dashboard:3 neomutt
+tmux send -t dashboard:3.0 $'gomuks\n'
+tmux rename-window -t dashboard:3 gomuks
 
-# 4 - Joplin
+# 4 - NeoMutt
 tmux new-window -t dashboard
 sleep 1
-tmux send -t dashboard:4.0 $'joplin\n'
-tmux rename-window -t dashboard:4 joplin
+tmux send -t dashboard:4.0 $'neomutt\n'
+tmux rename-window -t dashboard:4 neomutt
+
+# 5 - Joplin
+tmux new-window -t dashboard
+sleep 1
+tmux send -t dashboard:5.0 $'joplin\n'
+tmux rename-window -t dashboard:5 joplin
 
 # Weechat keeps connecting and disconnecting and I am not reading the messages
 # so it was just creating noise in the chat rooms
 
-5 - Weechat
+6 - Weechat
 tmux new-window -t dashboard
-tmux send -t dashboard:5.0 $'sleep 120; ssh contabo screen -DRS weechat\n'
-tmux rename-window -t dashboard:5 weechat
+tmux send -t dashboard:6.0 $'weechat\n'
+#tmux send -t dashboard:6.0 $'sleep 120; ssh contabo screen -DRS weechat\n'
+tmux rename-window -t dashboard:6 weechat
 
 # Back to Dashboard
 tmux select-window -t dashboard:0

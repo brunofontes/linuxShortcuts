@@ -54,7 +54,7 @@ function checkBackup() {
 
 function pruneBackup() {
     echo -e "${blue}            `date +%r` - Prune old backups...${reset}"
-    borg prune --keep-weekly=12 --keep-monthly=24 --keep-yearly=3 $1
+    borg prune --keep-weekly=4 --keep-monthly=12 --keep-yearly=2 $1
 }
 
 
@@ -82,9 +82,10 @@ read
 
 timeout=30
 echo -n "Mounting Backup_$ActiveDisk"
+mount $HDPath
 device=$(mount | grep "Backup_$ActiveDisk" | cut -d " " -f1)
 while [[ "$device" != *"/dev/"* ]]; do
-    [[ $timeout -lt 1 ]] && echo -e "\e[97m Timeout!\e[39m" && break
+    [[ $timeout -lt 1 ]] && echo -e "\e[97m Timeout!\e[39m" && exit 1
     (( timeout-- ))
     echo -n "."
     sleep 1s

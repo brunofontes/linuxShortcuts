@@ -2,7 +2,12 @@
 activity=`kactivities-cli --current-activity | cut -d" " -f3`
 
 if [[ $1 =~ .*youtube\.com.* ]]; then
-    /bin/freetube "$*" >/dev/null 2>&1 &
+    mpv "$*" >/dev/null 2>&1 &
+    exit
+fi
+
+if [[ $1 =~ .*youtu\.be.* ]]; then
+    mpv "$*" >/dev/null 2>&1 &
     exit
 fi
 
@@ -13,7 +18,7 @@ if [[ $1 =~ .*\&incognitottt$ ]]; then
     [[ $activity == "Main" ]] && /bin/firefox --private-window "$url" >/dev/null 2>&1 &
     [[ $activity == "Videos" ]] && /bin/firefox --private-window "$url" >/dev/null 2>&1 &
 else
-    [[ $activity == "OXO" ]] && /bin/brave "$1" >/dev/null 2>&1 &
+    [[ $activity == "OXO" ]] && /bin/firefox -P OXO "$1" >/dev/null 2>&1 &
     [[ $activity == "Development" ]] && /home/bruno/Apps/firefox/firefox-bin "$1" >/dev/null 2>&1 &
     [[ $activity == "Main" ]] && /bin/firefox "$1" >/dev/null 2>&1 &
     [[ $activity == "Videos" ]] && /bin/firefox "$1" >/dev/null 2>&1 &

@@ -1,5 +1,6 @@
 [Unit]
 Description=Mailbox synchronization service
+OnFailure=logErrors@%n.service
 
 [Service]
 Type=oneshot

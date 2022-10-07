@@ -3,4 +3,5 @@ Description=Log Systemd errors on my %i script on home
 
 [Service]
 ExecStart=/home/bruno/Apps/linuxShortcuts/Services/logError.sh %i
+ExecStart=/usr/bin/curl -d "Michelle: fail to run %i" ntfy.sh/bft
 #ExecStart=/bin/systemctl status --full %i >> /home/bruno/.log_error

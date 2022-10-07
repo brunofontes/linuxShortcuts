@@ -1,0 +1,12 @@
+[Unit]
+Description=pihole
+Requires=docker.service multi-user.target
+After=docker.service network-online.target dhcpd.service
+
+[Service]
+WorkingDirectory=/home/bruno/Apps/piholeDocker
+ExecStart=/usr/local/bin/docker-compose up
+# ExecStop=/usr/local/bin/docker-compose down
+
+[Install]
+WantedBy=multi-user.target
