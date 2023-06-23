@@ -1,14 +1,14 @@
 #!/bin/sh
-
 if [[ $(tmux ls | grep 'dashboard') ]]; then
-    terminator -T "Dashboard" -x tmux a -t dashboard &
+    terminator --title "Dashboard" -x "tmux a -t dashboard" &
+    echo "Just attaching and exiting..."
     exit
 fi
 echo "Iniciando Dashboard..."
 sleep 2
 tmux new -d -s dashboard
 tmux rename-window -t dashboard "Dashboard"
-terminator -T "Dashboard" -x tmux a -t dashboard &
+terminator -T "Dashboard" -x "tmux a -t dashboard" &
 sleep 10
 tmux splitw -t dashboard
 tmux splitw -h -t dashboard:0.0
@@ -18,7 +18,7 @@ sleep 1
 
 # 0 - Dashboard/khal
 tmux send -t dashboard:0.0 $'clear;watch --interval $((30 * 60)) --no-title --color screenfetch\n'
-tmux send -t dashboard:0.1 $'alias clear="clear;figlet Dashboard; echo -n Khal:\ ; khal list --exclude-calendar rotina; echo;"\n'
+tmux send -t dashboard:0.1 $'alias clear="/bin/clear;figlet Dashboard; bdays; khal list --notstarted now --exclude-calendar rotina; echo;"\n'
 tmux send -t dashboard:0.2 $'btop\n'
 tmux send -t dashboard:0.1 $'clear\n'
 tmux send -t dashboard:0.1 $'ikhal\n'
@@ -30,11 +30,13 @@ tmux send -t dashboard:1.0 $'tut --user brunofontes@fosstodon.org\n'
 tmux rename-window -t dashboard:1 "tut - Fosstodon"
 tmux setw monitor-activity -t dashboard:1
 
-# 2 - Tut - Mastodon Social
+# 2 - Tut - me@GtS
 tmux new-window -t dashboard
 sleep 1
-tmux send -t dashboard:2.0 $'tut --user brunofontes@mastodon.social\n'
-tmux rename-window -t dashboard:2 "tut - MastodonSocial"
+#tmux send -t dashboard:2.0 $'tut --user brunofontes@mastodon.social\n'
+tmux send -t dashboard:2.0 $'tut --user me@gts.brunofontes.net\n'
+#tmux rename-window -t dashboard:2 "tut - MastodonSocial"
+tmux rename-window -t dashboard:2 "tut - @me@GtS.brunofontes.net"
 tmux setw monitor-activity -t dashboard:2
 
 # 3 - GoMuks
@@ -58,11 +60,16 @@ tmux rename-window -t dashboard:5 joplin
 # Weechat keeps connecting and disconnecting and I am not reading the messages
 # so it was just creating noise in the chat rooms
 
-6 - Weechat
+# 6 - Weechat
 tmux new-window -t dashboard
 tmux send -t dashboard:6.0 $'weechat\n'
 #tmux send -t dashboard:6.0 $'sleep 120; ssh contabo screen -DRS weechat\n'
 tmux rename-window -t dashboard:6 weechat
+
+# 7 - Newsboat
+tmux new-window -t dashboard
+tmux send -t dashboard:7.0 $'newsboat\n'
+tmux rename-window -t dashboard:7 Newsboat
 
 # Back to Dashboard
 tmux select-window -t dashboard:0

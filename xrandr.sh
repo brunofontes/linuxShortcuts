@@ -1,3 +1,3 @@
 #!/bin/sh
 
-xrandr --output HDMI-2 --left-of HDMI-1
+xrandr --output HDMI2 --left-of HDMI1

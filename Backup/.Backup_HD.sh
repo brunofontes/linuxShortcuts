@@ -16,7 +16,8 @@ function backup () {
     # $2 - Backup name
     # $3 - Files/Folders to backup
     prepareFolder $1
-    echo -e "${blue}            `date +%r` - Backing up (compressed)...${reset}"
+    DS=$(diskSpace $1)
+    echo -e "${blue}            `date +%r` - Backing up (compressed)...${reset} [Free disk space: $DS ]"
     ionice -c 3 nice -n 19 borg create --compression auto,zstd,9 --exclude-from=./exclude "$1::$2" "$3"
     checkBackup $1
 }
@@ -54,9 +55,13 @@ function checkBackup() {
 
 function pruneBackup() {
     echo -e "${blue}            `date +%r` - Prune old backups...${reset}"
-    borg prune --keep-weekly=4 --keep-monthly=12 --keep-yearly=2 $1
+    borg prune --keep-weekly=4 --keep-monthly=12 --keep-yearly=1 $1
+    borg compact $1
 }
 
+function diskSpace() {
+    df -h --output=avail "$1" | sed --silent '2p'
+}
 
 cd /home/bruno/Apps/linuxShortcuts/Backup/
 
@@ -119,15 +124,16 @@ backupNoCompression "$HDPath/Fotos" "$YEARMONTH" "/run/media/bruno/Multimedia/Fo
 echo -e "${white}`date +%r` - Copying Video folder (6/7)...\e[39m"
 backupNoCompression "$HDPath/Videos" "$YEARMONTH" "/run/media/bruno/Multimedia/Videos" || echo ""
 
-echo -e "${white}`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
-backup "$HDPath/VirtualMachines" "$YEARMONTH" "/run/media/bruno/Multimedia/Virtual Machines" || echo ""
+#echo -e "${white}`date +%r` - Copying Virtual Machines folder (7/7)...\e[39m"
+#backup "$HDPath/VirtualMachines" "$YEARMONTH" "/run/media/bruno/Multimedia/Virtual Machines" || echo ""
 
 # Show result
 echo -e "${green}`date +%r` - Backup finished. Please, verify your log files.\e[39m"
 
 echo "$ActiveDisk" > .lastDisk
 
-/usr/bin/curl -d "Backup HD: Completed" ntfy.sh/bft >/dev/null 2>&1 &
+# /usr/bin/curl -d "Backup HD: Completed" ntfy.sh/bft >/dev/null 2>&1 &
+/home/bruno/Apps/linuxShortcuts/ntfy.sh -t "Michelle Backup Completed!" a "floppy_disk" "Close the window and remove the disk..." >/dev/null 2>&1 &
 kdialog --title "Backup Complete" --msgbox "Backup finished successfully"
 echo
 echo "Backup on $device is finished. Press any key to close..."

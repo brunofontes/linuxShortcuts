@@ -3,6 +3,7 @@
 # Goes back to Main if tomatoshell is not running
 
 [ $(pgrep -f 'OXO.sh' | wc -l) -gt 2 ] && exit
+[ $(pgrep -f 'start-oxo.sh') ] && exit
 sleep 30s
 
 while [ 1 = 1 ]; do

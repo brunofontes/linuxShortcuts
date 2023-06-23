@@ -8,10 +8,11 @@
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210905.0/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220828.0/
 AccuracySec	Services/minecraft-hour.timer	/^AccuracySec=1s$/;"	k	section:Timer
 After	Services/after-wakeup.service	/^After=suspend.target$/;"	k	section:Unit
 After	Services/bruno-network-manager.service	/^After=network-online.target$/;"	k	section:Unit
+After	Services/pihole.service	/^After=docker.service network-online.target dhcpd.service$/;"	k	section:Unit
 After	Services/roothints.service	/^After=network.target$/;"	k	section:Unit
 After	Services/testDNS.service	/^After=network-online.target$/;"	k	section:Unit
 Before	Services/before-sleep.service	/^Before=sleep.target$/;"	k	section:Unit
@@ -28,6 +29,7 @@ Description	Services/mbsync.timer	/^Description=Mailbox synchronization timer$/;
 Description	Services/minecraft-hour.service	/^Description=Minecraft Informa a Hora Certa$/;"	k	section:Unit
 Description	Services/minecraft-hour.timer	/^Description=Minecraft Informa a Hora Certa$/;"	k	section:Unit
 Description	Services/minecraft-stop.service	/^Description=Properly shutdown Minecraft before PC shutdown$/;"	k	section:Unit
+Description	Services/pihole.service	/^Description=pihole$/;"	k	section:Unit
 Description	Services/roothints.service	/^Description=Update root hints for unbound$/;"	k	section:Unit
 Description	Services/roothints.timer	/^Description=Run root.hints monthly$/;"	k	section:Unit
 Description	Services/run-media-bruno-Multimedia.mount	/^Description=Mount Multimedia out of fstab$/;"	k	section:Unit
@@ -48,6 +50,7 @@ ExecStart	Services/logErrors@.service	/^ExecStart=\/home\/bruno\/Apps\/linuxShor
 ExecStart	Services/logErrors@.service	/^ExecStart=\/usr\/bin\/curl -d "Michelle: fail to run %i" ntfy.sh\/bft$/;"	k	section:Service
 ExecStart	Services/mbsync.service	/^ExecStart=\/usr\/bin\/mbsync -Va$/;"	k	section:Service
 ExecStart	Services/minecraft-hour.service	/^ExecStart=\/bin\/sh \/home\/bruno\/Apps\/linuxShortcuts\/Services\/minecraft-hour.sh$/;"	k	section:Service
+ExecStart	Services/pihole.service	/^ExecStart=\/usr\/local\/bin\/docker-compose up$/;"	k	section:Service
 ExecStart	Services/roothints.service	/^ExecStart=\/usr\/bin\/curl -o \/etc\/unbound\/root.hints https:\/\/www.internic.net\/domain\/nam/;"	k	section:Service
 ExecStart	Services/testDNS.service	/^ExecStart = \/bin\/bash \/home\/bruno\/Apps\/linuxShortcuts\/Services\/fixDNS.sh$/;"	k	section:Service
 ExecStart	Services/updateRootHints.service	/^ExecStart = \/bin\/bash \/home\/bruno\/Apps\/linuxShortcuts\/Services\/roothints.sh$/;"	k	section:Service
@@ -62,6 +65,7 @@ Install	Services/bruno-network-manager.service	/^[Install]$/;"	s
 Install	Services/mbsync.timer	/^[Install]$/;"	s
 Install	Services/minecraft-hour.timer	/^[Install]$/;"	s
 Install	Services/minecraft-stop.service	/^[Install]$/;"	s
+Install	Services/pihole.service	/^[Install]$/;"	s
 Install	Services/roothints.timer	/^[Install]$/;"	s
 Install	Services/run-media-bruno-Multimedia.mount	/^[Install]$/;"	s
 Install	Services/testDNS.service	/^[Install]$/;"	s
@@ -78,6 +82,8 @@ OnFailure	Services/after-wakeup.service	/^OnFailure=logErrors@%n.service$/;"	k	s
 OnFailure	Services/backup-contabo.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
 OnFailure	Services/backup-joplin.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
 OnFailure	Services/before-sleep.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/bruno-network-manager.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
+OnFailure	Services/mbsync.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
 OnFailure	Services/minecraft-hour.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
 OnFailure	Services/minecraft-stop.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
 OnFailure	Services/roothints.service	/^OnFailure=logErrors@%n.service$/;"	k	section:Unit
@@ -92,6 +98,7 @@ Persistent	Services/roothints.timer	/^Persistent=true$/;"	k	section:Timer
 Persistent	Services/updateRootHints.timer	/^Persistent=true$/;"	k	section:Timer
 RemainAfterExit	Services/minecraft-stop.service	/^RemainAfterExit=true$/;"	k	section:Service
 Requires	Services/minecraft-hour.timer	/^Requires=minecraft-hour.service$/;"	k	section:Unit
+Requires	Services/pihole.service	/^Requires=docker.service multi-user.target$/;"	k	section:Unit
 SSH	README.md	/^## SSH$/;"	s	chapter:linuxShortcuts
 Service	Services/after-wakeup.service	/^[Service]$/;"	s
 Service	Services/backup-contabo.service	/^[Service]$/;"	s
@@ -102,6 +109,7 @@ Service	Services/logErrors@.service	/^[Service]$/;"	s
 Service	Services/mbsync.service	/^[Service]$/;"	s
 Service	Services/minecraft-hour.service	/^[Service]$/;"	s
 Service	Services/minecraft-stop.service	/^[Service]$/;"	s
+Service	Services/pihole.service	/^[Service]$/;"	s
 Service	Services/roothints.service	/^[Service]$/;"	s
 Service	Services/testDNS.service	/^[Service]$/;"	s
 Service	Services/updateRootHints.service	/^[Service]$/;"	s
@@ -137,6 +145,7 @@ Unit	Services/minecraft-hour.service	/^[Unit]$/;"	s
 Unit	Services/minecraft-hour.timer	/^Unit=minecraft-hour.service$/;"	k	section:Timer
 Unit	Services/minecraft-hour.timer	/^[Unit]$/;"	s
 Unit	Services/minecraft-stop.service	/^[Unit]$/;"	s
+Unit	Services/pihole.service	/^[Unit]$/;"	s
 Unit	Services/roothints.service	/^[Unit]$/;"	s
 Unit	Services/roothints.timer	/^[Unit]$/;"	s
 Unit	Services/run-media-bruno-Multimedia.mount	/^[Unit]$/;"	s
@@ -159,6 +168,7 @@ WantedBy	Services/bruno-network-manager.service	/^WantedBy=network-online.target
 WantedBy	Services/mbsync.timer	/^WantedBy=timers.target$/;"	k	section:Install
 WantedBy	Services/minecraft-hour.timer	/^WantedBy=timers.target$/;"	k	section:Install
 WantedBy	Services/minecraft-stop.service	/^WantedBy=multi-user.target$/;"	k	section:Install
+WantedBy	Services/pihole.service	/^WantedBy=multi-user.target$/;"	k	section:Install
 WantedBy	Services/roothints.timer	/^WantedBy=timers.target$/;"	k	section:Install
 WantedBy	Services/run-media-bruno-Multimedia.mount	/^WantedBy=multi-user.target$/;"	k	section:Install
 WantedBy	Services/testDNS.service	/^WantedBy=multi-user.target$/;"	k	section:Install
@@ -167,6 +177,7 @@ WantedBy	Services/xpra@.service	/^WantedBy=multi-user.target$/;"	k	section:Insta
 Wants	Services/testDNS.service	/^Wants=network-online.target$/;"	k	section:Unit
 What	Services/run-media-bruno-Multimedia.mount	/^What=\/dev\/disk\/by-label\/Multimedia$/;"	k	section:Mount
 Where	Services/run-media-bruno-Multimedia.mount	/^Where=\/run\/media\/bruno\/Multimedia$/;"	k	section:Mount
+WorkingDirectory	Services/pihole.service	/^WorkingDirectory=\/home\/bruno\/Apps\/piholeDocker$/;"	k	section:Service
 apt-get	README.md	/^## apt-get$/;"	s	chapter:linuxShortcuts
 aur	README.md	/^### aur$/;"	S	section:linuxShortcuts""Pacman
 backup	Backup/.Backup_HD.sh	/^function backup () {$/;"	f
