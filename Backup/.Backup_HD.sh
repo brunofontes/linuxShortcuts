@@ -133,7 +133,8 @@ echo -e "${green}`date +%r` - Backup finished. Please, verify your log files.\e[
 echo "$ActiveDisk" > .lastDisk
 
 # /usr/bin/curl -d "Backup HD: Completed" ntfy.sh/bft >/dev/null 2>&1 &
-/home/bruno/Apps/linuxShortcuts/ntfy.sh -t "Michelle Backup Completed!" a "floppy_disk" "Close the window and remove the disk..." >/dev/null 2>&1 &
+/home/bruno/Apps/linuxShortcuts/ntfy.sh --title "Michelle Backup Completed\!" --tags "floppy_disk" "Close the window and remove the disk..." >/dev/null 2>&1 &
+
 kdialog --title "Backup Complete" --msgbox "Backup finished successfully"
 echo
 echo "Backup on $device is finished. Press any key to close..."

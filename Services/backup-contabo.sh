@@ -13,14 +13,17 @@ if [[ -z $CONTABO_BACKUP_PATH ]]; then
 fi
 sleep 60
 
+ntfy="/home/bruno/Apps/linuxShortcuts/ntfy.sh --title Backup"
 OXO_PATH="/home/bruno/Backups/OXOwebsite/"
 
 # Backup Contabo
 echo "Backuping Contabo..."
+ntfy "Starting Contabo..."
 /bin/rsync --archive --backup --exclude "files/nextcloud*" --rsh=ssh backupContabo:/home/bruno/backups/* $CONTABO_BACKUP_PATH
 
 # Backup Gitea
 echo "Backuping Gitea..."
+ntfy "Starting GoogleMicro..."
 /bin/rsync --archive --backup --rsh=ssh bkpgitea:/home/brunofontes/ttt/ /home/bruno/Backups/gitea/
 
 # Backup OXO Files
@@ -52,3 +55,4 @@ find $CONTABO_BACKUP_PATH/mail -type f -name "*.*" -mtime +20 -delete
 find $CONTABO_BACKUP_PATH/ -type f -name "*.*" -mtime +120 -delete
 
 find /home/bruno/Backups/gitea/ -type f -name "*.zip" -mtime +15 -delete
+ntfy "Websites Backup Finished"
