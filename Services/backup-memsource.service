@@ -1,0 +1,6 @@
+[Unit]
+Description=Backup memsource daily
+OnFailure=logErrors@%n.service
+
+[Service]
+ExecStart=/bin/konsole --workdir /run/media/bruno/Multimedia/MyDocuments/Development/Ccaps/BackupMemsourceLive/src -e php index.php

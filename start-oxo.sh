@@ -35,6 +35,14 @@ then
         openingProgram=1
     fi
 
+    # KTimeTracker
+    if [[ -z $(pgrep --exact ktimetracker) ]]
+    then
+        echo "Opening KTimeTracker..."
+        /bin/ktimetracker >/dev/null 2>&1 &
+        openingProgram=1
+    fi
+
     if [ $openingProgram ]
     then
         sleep 5

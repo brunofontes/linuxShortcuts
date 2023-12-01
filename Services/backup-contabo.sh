@@ -13,7 +13,10 @@ if [[ -z $CONTABO_BACKUP_PATH ]]; then
 fi
 sleep 60
 
-ntfy="/home/bruno/Apps/linuxShortcuts/ntfy.sh --title Backup"
+function ntfy() {
+    /home/bruno/Apps/linuxShortcuts/ntfy.sh --title Backup $1
+}
+
 OXO_PATH="/home/bruno/Backups/OXOwebsite/"
 
 # Backup Contabo

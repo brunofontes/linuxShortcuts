@@ -1,14 +1,15 @@
 #!/bin/zsh
 activity=$(kactivities-cli --current-activity | cut -d" " -f3)
 
-if [[ $1 =~ .*youtube\.com.* ]]; then
-    mpv "$*" >/dev/null 2>&1 &
-    exit
-fi
+MPV=0
+[[ $1 =~ .*youtube\.com.* ]] && MPV=1
+[[ $1 =~ .*youtu\.be.* ]] && MPV=1
+[[ $1 =~ .*peertube.* ]] && MPV=1
+[[ $1 =~ .*yewtu\.be.* ]] && MPV=1
 
-if [[ $1 =~ .*youtu\.be.* ]]; then
+if [[ $MPV == "1" ]]; then
     mpv "$*" >/dev/null 2>&1 &
-    exit
+    exit 0
 fi
 
 # if [[ $1 =~ .*\&incognitottt$ ]]; then
@@ -21,6 +22,6 @@ fi
 # fi
 
 [[ $activity == "OXO" ]] && /bin/firefox -P OXO "$1" >/dev/null 2>&1 &
-[[ $activity == "Development" ]] && /home/bruno/Apps/firefox/firefox-bin "$1" >/dev/null 2>&1 &
+[[ $activity == "Development" ]] && /bin/firefox -P DEV "$1" >/dev/null 2>&1 &
 [[ $activity == "Main" ]] && /bin/firefox "$1" >/dev/null 2>&1 &
 [[ $activity == "Videos" ]] && /bin/firefox "$1" >/dev/null 2>&1 &

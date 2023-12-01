@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup memsource daily
+
+[Timer]
+Persistent=true
+OnCalendar=*-*-* 10:30:00
+WakeSystem=true
+#DayOfWeek Year-Month-Day Hour:Minute:Second
+
+[Install]
+WantedBy=timers.target

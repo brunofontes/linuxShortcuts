@@ -10,15 +10,6 @@ then
     opening=1
     startedTerm=1
 fi
-#if [ -z $(pgrep "qutebrowser") ]
-#then
-#    /bin/qutebrowser &>/dev/null &
-#    opening=1
-#fi
-#if [ $opening ]
-#then
-#    sleep 4
-#fi
 
 TERMINATOR="0,1988,61,1760,880"
 QUTE="0,90,78,1715,900"

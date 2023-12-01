@@ -27,7 +27,8 @@ function backupNoCompression () {
     # $2 - Backup name
     # $3 - Files/Folders to backup
     prepareFolder $1
-    echo -e "${blue}            `date +%r` - Backing up (uncompressed)...${reset}"
+    DS=$(diskSpace $1)
+    echo -e "${blue}            `date +%r` - Backing up (uncompressed)...${reset} [Free disk space: $DS ]"
     ionice -c 3 nice -n 19 borg create --compression none --exclude-from=./exclude "$1::$2" "$3"
     checkBackup $1
 }
@@ -54,7 +55,8 @@ function checkBackup() {
 }
 
 function pruneBackup() {
-    echo -e "${blue}            `date +%r` - Prune old backups...${reset}"
+    DS=$(diskSpace $1)
+    echo -e "${blue}            `date +%r` - Prune old backups...${reset} [Free disk space: $DS ]"
     borg prune --keep-weekly=4 --keep-monthly=12 --keep-yearly=1 $1
     borg compact $1
 }
