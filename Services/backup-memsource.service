@@ -2,5 +2,9 @@
 Description=Backup memsource daily
 OnFailure=logErrors@%n.service
 
+# SAVE THIS TO THE SYSTEMD LOCAL FOLDER
+# ~/.config/systemd/user/
+
 [Service]
-ExecStart=/bin/konsole --workdir /run/media/bruno/Multimedia/MyDocuments/Development/Ccaps/BackupMemsourceLive/src -e php index.php
+ExecStart=/bin/terminator --working-directory=/run/media/bruno/Multimedia/MyDocuments/Development/Ccaps/BackupMemsourceLive/src -x "php index.php"
+Environment=DISPLAY=:0

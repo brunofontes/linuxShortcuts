@@ -4,8 +4,8 @@ setxkbmap -model abnt2 -layout br -variant ,abnt2
 
 # 1280x720 = Max resolution monitor can do that fits blackout
 
-xrandr --output HDMI2 --mode 1366x768 --pos 0x0 --rate 59.79 \
-       --output HDMI1 --mode 1280x720 --right-of HDMI2 --rate 60.00
+xrandr --output HDMI-A-1 --mode 1366x768 --pos 0x0 --rate 59.79 \
+       --output HDMI-A-0 --mode 1280x720 --right-of HDMI-A-1 --rate 60.00
 
 #xrandr --output HDMI1 --mode 1280x720  #Max resolution monitor can do that fits blackout
 #xrandr --output HDMI2 --mode 1366x768
